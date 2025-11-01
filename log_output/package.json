@@ -1,0 +1,16 @@
+{
+  "name": "log-output",
+  "version": "1.0.0",
+  "description": "Application that generates a random string and outputs it every 5 seconds",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
