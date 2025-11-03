@@ -1,0 +1,32 @@
+# To-do App
+
+A minimal Node.js HTTP server that logs "Server started in port PORT" on startup. The server listens on the `PORT` environment variable, which defaults to `3000`.
+
+
+### Build and Push Image
+
+Build and push the image to Docker Hub repo: `gedionkip/k8s-submissions`:
+
+```bash
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:1.2 \
+  --push \
+  .
+```
+
+### Kubernetes deployment
+
+```bash
+# Create the deployment
+kubectl create deployment todo-app --image=gedionkip/k8s-submissions:1.2
+
+# Set PORT environment variable (example: 8080)
+kubectl set env deployment/todo-app PORT=8080
+```
+### View the logs
+```bash
+kubectl logs -l app=todo-app
+#OR
+kubectl logs -f deployment/todo-app
+```

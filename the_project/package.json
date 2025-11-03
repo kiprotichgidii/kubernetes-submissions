@@ -1,0 +1,13 @@
+{
+  "name": "the-project",
+  "version": "1.0.0",
+  "description": "Minimal HTTP server that logs startup port; PORT env supported",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
