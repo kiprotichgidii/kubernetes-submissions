@@ -25,6 +25,9 @@ kubectl create deployment todo-app --image=gedionkip/k8s-submissions:1.2
 kubectl set env deployment/todo-app PORT=8080
 ```
 ### View the logs
+
+View the output of the deployed web server:
+
 ```bash
 kubectl logs -l app=todo-app
 #OR
