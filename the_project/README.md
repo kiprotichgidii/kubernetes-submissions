@@ -18,11 +18,10 @@ docker buildx build \
 ### Kubernetes deployment
 
 ```bash
-# Create the deployment
-kubectl create deployment todo-app --image=gedionkip/k8s-submissions:1.2
-
-# Set PORT environment variable (example: 8080)
-kubectl set env deployment/todo-app PORT=8080
+# Apply the manifest
+kubectl apply -f manifests/deployment.yaml
+# OR
+kubectl apply -f manifests
 ```
 ### View the logs
 
