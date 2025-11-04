@@ -2,13 +2,7 @@
 
 An application that generates a random UUID on startup, stores it in memory, and outputs it every 5 seconds with a timestamp.
 
-## Local Development
-
-```bash
-node index.js
-```
-
-## Docker Build
+### Build and Push Docker Image
 
 Build the docker container and push to Docker Hub repository; `gedionkip/k8s-submissions`:
 
@@ -20,15 +14,17 @@ docker buildx build \
 .
 ```
 
-## Kubernetes Deployment
+### Kubernetes Deployment
 
-Deploy the app in Kubernetes using `kubectl create` command:
+Deploy the app in Kubernetes using the `yaml` manifest:
 
 ```bash
-kubectl create deployment log-output --image=gedionkip/k8s-submissions:1.1
+kubectl apply -f manifests/deployment.yaml
+# OR
+kubectl apply -f manifests/
 ```
 
-Viewing Logs:
+### Viewing Logs
 
 ```bash
 # Follow logs from the deployment
