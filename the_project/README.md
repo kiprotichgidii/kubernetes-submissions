@@ -21,7 +21,7 @@ docker buildx build \
 # Apply the manifest
 kubectl apply -f manifests/deployment.yaml
 # OR
-kubectl apply -f manifests
+kubectl apply -f manifests/
 ```
 ### View the logs
 
