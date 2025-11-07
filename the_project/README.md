@@ -32,3 +32,20 @@ kubectl logs -l app=todo-app
 #OR
 kubectl logs -f deployment/todo-app
 ```
+
+### Access the application
+
+Use `kubectl port-forward` to access the application in your browser:
+
+```bash
+# Port-forward the deployment to your local machine
+kubectl port-forward deployment/todo-app 8080:8080
+```
+
+Then open your browser and navigate to:
+
+```bash
+http://localhost:8080
+```
+
+To stop the port-forward, press `Ctrl+C` in the terminal.
