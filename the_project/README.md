@@ -18,9 +18,7 @@ docker buildx build \
 ### Kubernetes deployment
 
 ```bash
-# Apply the manifest
-kubectl apply -f manifests/deployment.yaml
-# OR
+# Apply the manifests
 kubectl apply -f manifests/
 ```
 ### View the logs
@@ -35,18 +33,11 @@ kubectl logs -f deployment/todo-app
 
 ### Access the application
 
-Use `kubectl port-forward` to access the application in your browser:
-
-```bash
-# Port-forward the deployment to your local machine
-kubectl port-forward deployment/todo-app 8080:8080
-```
-
 Then open your browser and navigate to:
 
 ```bash
-http://localhost:8080
+http://node-ip:30080
 ```
-![](./images/port-forward.png)
+![](./images/node-port.png)
 
-To stop the port-forward, press `Ctrl+C` in the terminal.
+I'm running a 3-node K8s cluster instead of using K3s. In the screenshot is the IP address of one of the nodes.
