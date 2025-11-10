@@ -47,5 +47,6 @@ Then open your browser and navigate to:
 ```bash
 http://localhost:8080
 ```
+![](./images/port-forward.png)
 
 To stop the port-forward, press `Ctrl+C` in the terminal.
