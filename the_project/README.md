@@ -33,11 +33,11 @@ kubectl logs -f deployment/todo-app
 
 ### Access the application
 
-Then open your browser and navigate to:
+I'm running a 3-Node K8s cluster instead of using K3s. In the screenshot is the IP address of one of the nodes.
+
+That being said, access to the cluster is not over `localhost`, but by the IP address of either nodes:
 
 ```bash
 http://node-ip:30080
 ```
 ![](./images/node-port.png)
-
-I'm running a 3-node K8s cluster instead of using K3s. In the screenshot is the IP address of one of the nodes.
