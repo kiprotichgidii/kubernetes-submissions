@@ -18,3 +18,17 @@ spec:
       - name: log-output
         image: gedionkip/k8s-submissions:1.1
         imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-output
+spec:
+  selector:
+    app: log-output
+  ports:
+  - port: 80
+    targetPort: 3000

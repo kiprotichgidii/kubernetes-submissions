@@ -1,16 +1,26 @@
+const express = require('express');
 const crypto = require('crypto');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Generate a random UUID on startup
 const randomString = crypto.randomUUID();
 
-// Function to output the string with timestamp
-function outputWithTimestamp() {
-    const timestamp = new Date().toISOString();
-    console.log(`${timestamp}: ${randomString}`);
+// Function to get the current timestamp
+function getTimestamp() {
+  return new Date().toISOString();
 }
 
-// Output immediately on startup
-outputWithTimestamp();
+// --- HTTP endpoint to get current status ---
+app.get('/status', (req, res) => {
+  res.json({
+    timestamp: getTimestamp(),
+    randomString: randomString,
+  });
+});
 
-// Then output every 5 seconds
-setInterval(outputWithTimestamp, 5000);
+// --- Start server ---
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
