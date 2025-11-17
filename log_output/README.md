@@ -9,7 +9,7 @@ Build the docker container and push to Docker Hub repository; `gedionkip/k8s-sub
 ```bash
 docker buildx build \
 --platform linux/amd64,linux/arm64 \
--t gedionkip/k8s-submissions:1.1 \
+-t gedionkip/k8s-submissions:1.7 \
 --push \
 .
 ```

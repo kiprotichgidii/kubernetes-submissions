@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: log-output
+  name: log-output-svc
 spec:
   selector:
     app: log-output
