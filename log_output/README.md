@@ -19,17 +19,5 @@ docker buildx build \
 Deploy the app in Kubernetes using the `yaml` manifest:
 
 ```bash
-kubectl apply -f manifests/deployment.yaml
-# OR
 kubectl apply -f manifests/
-```
-
-### Viewing Logs
-
-```bash
-# Follow logs from the deployment
-kubectl logs -f deployment/log-output
-
-# Or from a specific pod
-kubectl logs -f <pod-name>
 ```
