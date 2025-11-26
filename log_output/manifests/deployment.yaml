@@ -27,8 +27,10 @@ kind: Service
 metadata:
   name: log-output-svc
 spec:
+  type: ClusterIP
   selector:
     app: log-output
   ports:
-  - port: 80
-    targetPort: 3000
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
