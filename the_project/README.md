@@ -21,23 +21,24 @@ docker buildx build \
 # Apply the manifests
 kubectl apply -f manifests/
 ```
-### View the logs
+### Check the created resources
 
-View the output of the deployed web server:
-
+Check the created service and ingress resource:
 ```bash
-kubectl logs -l app=todo-app
-#OR
-kubectl logs -f deployment/todo-app
-```
+~❯ k get svc                                                       
+NAME           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+kubernetes     ClusterIP   10.233.0.1      <none>        443/TCP     40d
+todo-app-svc   ClusterIP   10.233.48.197   <none>        30080/TCP   14m
 
+~❯ k get ingress                                                
+NAME          CLASS   HOSTS   ADDRESS         PORTS   AGE
+the-project   nginx   *       192.168.1.205   80      13m
+```
 ### Access the application
 
-I'm running a 3-Node K8s cluster instead of using K3s. In the screenshot is the IP address of one of the nodes.
-
-That being said, access to the cluster is not over `localhost`, but by the IP address of either nodes:
+I'm running a 3-Node K8s cluster instead of using K3s. In the screenshot is the IP address of the ingress controller.
 
 ```bash
-http://node-ip:30080
+http://ingress-controller-ip/
 ```
-![](./images/node-port.png)
+![](./images/ingress-nginx.png)
