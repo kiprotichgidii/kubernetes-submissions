@@ -11,7 +11,6 @@ Build and push the two containers:
 
 ```bash
 # Generator image
-cd generator
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t gedionkip/k8s-submissions:1.10.1 \
@@ -19,7 +18,6 @@ docker buildx build \
   .
 
 # Reader image
-cd ../reader
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t gedionkip/k8s-submissions:1.10.2 \
