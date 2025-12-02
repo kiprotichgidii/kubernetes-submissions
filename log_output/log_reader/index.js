@@ -27,5 +27,3 @@ app.get('/status', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Reader started on port ${PORT}, serving file: ${STATUS_FILE}`);
 });
-
-

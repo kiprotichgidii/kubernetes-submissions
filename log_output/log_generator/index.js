@@ -34,5 +34,3 @@ console.log('Generator starting. Using file:', STATUS_FILE);
 // Write immediately once on startup, then every 5 seconds
 writeLine();
 setInterval(writeLine, 5000);
-
-
