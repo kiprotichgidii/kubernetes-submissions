@@ -30,7 +30,7 @@ docker buildx build \
 Deploy the app in Kubernetes using the `yaml` manifest:
 
 ```bash
-kubectl apply -f manifests/deployment.yaml
+kubectl apply -f manifests/
 ```
 
 ### Check the Application Logs
