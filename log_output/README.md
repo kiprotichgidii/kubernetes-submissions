@@ -1,6 +1,6 @@
 # Log Output App
 
-This app is implemented as **two separate Node.js applications in two directories**, combined into a **single pod**:
+This is the Log Output app implemented as **two separate Node.js applications in two directories**, combined into a **single pod**:
 
 - `log_generator/`: generates a random UUID on startup and writes a line with the UUID and timestamp every 5 seconds into a shared file.
 - `log_reader/`: exposes an HTTP endpoint that reads that shared file and returns the contents.
