@@ -14,12 +14,30 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+      - name: shared-logs
+        emptyDir: {}
       containers:
-      - name: log-output
-        image: gedionkip/k8s-submissions:1.7
+      - name: log-output-generator
+        image: gedionkip/log-output-generator:1.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: shared-logs
+          mountPath: /shared
+        env:
+        - name: STATUS_FILE
+          value: "/shared/status.log"
+      - name: log-output-reader
+        image: gedionkip/log-output-reader:1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
+        volumeMounts:
+        - name: shared-logs
+          mountPath: /shared
+        env:
+        - name: STATUS_FILE
+          value: "/shared/status.log"
 
 ---
 apiVersion: v1

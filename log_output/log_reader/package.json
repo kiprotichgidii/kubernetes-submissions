@@ -1,7 +1,7 @@
 {
-  "name": "log-output",
+  "name": "log-output-reader",
   "version": "1.0.0",
-  "description": "Application that generates a random string and outputs it every 5 seconds",
+  "description": "Reads the shared file and exposes its contents over HTTP",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -16,4 +16,5 @@
     "express": "^4.18.2"
   }
 }
+
 

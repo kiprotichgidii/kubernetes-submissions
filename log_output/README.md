@@ -1,17 +1,30 @@
 # Log Output App
 
-An application that generates a random UUID on startup, stores it in memory, and outputs it every 5 seconds with a timestamp.
+This app is implemented as **two separate Node.js applications in two directories**, combined into a **single pod**:
 
-### Build and Push Docker Image
+- `generator/`: generates a random UUID on startup and writes a line with the UUID and timestamp every 5 seconds into a shared file.
+- `reader/`: exposes an HTTP endpoint that reads that shared file and returns the contents.
 
-Build the docker container and push to Docker Hub repository; `gedionkip/k8s-submissions`:
+### Build and Push Docker Images
+
+Build and push the two containers:
 
 ```bash
+# Generator image
+cd generator
 docker buildx build \
---platform linux/amd64,linux/arm64 \
--t gedionkip/k8s-submissions:1.7 \
---push \
-.
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/log-output-generator:1.0 \
+  --push \
+  .
+
+# Reader image
+cd ../reader
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/log-output-reader:1.0 \
+  --push \
+  .
 ```
 
 ### Kubernetes Deployment

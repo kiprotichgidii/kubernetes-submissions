@@ -1,0 +1,17 @@
+{
+  "name": "log-output-generator",
+  "version": "1.0.0",
+  "description": "Generates a random string and writes it to a shared file every 5 seconds",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
+
