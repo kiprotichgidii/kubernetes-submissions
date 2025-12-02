@@ -10,14 +10,14 @@ This app is implemented as **two separate Node.js applications in two directorie
 Build and push the two containers:
 
 ```bash
-# Generator image
+# Generator App Image
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t gedionkip/k8s-submissions:1.10.1 \
   --push \
   .
 
-# Reader image
+# Reader App Image
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t gedionkip/k8s-submissions:1.10.2 \
