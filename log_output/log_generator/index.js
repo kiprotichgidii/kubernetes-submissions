@@ -19,7 +19,7 @@ function getTimestamp() {
 }
 
 function writeLine() {
-  const line = `${getTimestamp()} ${randomString}\n`;
+  const line = `${getTimestamp()}: ${randomString}.\n`;
   fs.appendFile(STATUS_FILE, line, (err) => {
     if (err) {
       console.error('Error writing status line:', err);
