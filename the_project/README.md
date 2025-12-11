@@ -10,7 +10,7 @@ Build and push the image to Docker Hub repo: `gedionkip/k8s-submissions`:
 ```bash
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:1.12.3 \
+  -t gedionkip/k8s-submissions:1.13 \
   --push \
   .
 ```
@@ -29,4 +29,4 @@ I'm running a 3-Node K8s cluster instead of using K3s. In the screenshot is the 
 ```bash
 http://ingress-controller-ip/
 ```
-![](./images/picture-added.png)
+![](./images/exercise-1-13.png)
