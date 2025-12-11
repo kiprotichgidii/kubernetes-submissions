@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: gedionkip/k8s-submissions:1.12.3
+          image: gedionkip/k8s-submissions:1.13
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
