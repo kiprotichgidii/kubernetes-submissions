@@ -198,6 +198,25 @@ const htmlPage = `<!DOCTYPE html>
                 transform: translateY(0);
             }
         }
+        }
+        
+        .static-list-container {
+            background: #e8f0fe;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .static-list-container ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .static-list-container li {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -206,17 +225,21 @@ const htmlPage = `<!DOCTYPE html>
         <div style="text-align: center; margin-bottom: 20px;">
            <img src="/image" alt="Random Picsum Image" style="border-radius: 10px; max-width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </div>
-        <p class="subtitle">DevOps with Kubernetes 2025!</p>
-    <!--       
+        <p class="subtitle">DevOps with Kubernetes 2025!</p>     
         <div class="input-container">
-            <input type="text" id="todoInput" placeholder="Add a new task..." />
+            <input type="text" id="todoInput" placeholder="Add a new task..." maxlength="140" />
             <button onclick="addTodo()">Add</button>
         </div>
-        
+        <div class="static-list-container">
+            <ol>
+                <li>Learn DevOps</li>
+                <li>Learn Kubernetes</li>
+                <li>Deploy to cluster</li>
+            </ol>
+        </div> 
         <ul class="todo-list" id="todoList">
             <li class="empty-state">No tasks yet. Add one above to get started!</li>
         </ul>
-    -->
     </div>
     
     <script>
@@ -255,6 +278,11 @@ const htmlPage = `<!DOCTYPE html>
             const text = input.value.trim();
             
             if (text === '') {
+                return;
+            }
+
+            if (text.length > 140) {
+                alert("Task cannot exceed 140 characters");
                 return;
             }
             
