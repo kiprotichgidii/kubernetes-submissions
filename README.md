@@ -13,3 +13,4 @@
 - [1.10](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.10/log_output)
 - [1.11](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.11/ping_pong)
 - [1.12](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.12/the_project)
+- [1.13](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.13/the_project)
