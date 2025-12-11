@@ -52,7 +52,7 @@ const htmlPage = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do App</title>
+    <title>ToDo App</title>
     <style>
         * {
             margin: 0;
@@ -62,7 +62,7 @@ const htmlPage = `<!DOCTYPE html>
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -113,7 +113,7 @@ const htmlPage = `<!DOCTYPE html>
         
         button {
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #312d36;
             color: white;
             border: none;
             border-radius: 8px;
@@ -202,12 +202,12 @@ const htmlPage = `<!DOCTYPE html>
 </head>
 <body>
     <div class="container">
-        <h1>✓ To-Do App</h1>
+        <h1>✓ The Project App</h1>
         <div style="text-align: center; margin-bottom: 20px;">
-           <img src="/image" alt="Random Motivation" style="border-radius: 10px; max-width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+           <img src="/image" alt="Random Picsum Image" style="border-radius: 10px; max-width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </div>
-        <p class="subtitle">Stay organized and get things done!</p>
-        
+        <p class="subtitle">DevOps with Kubernetes 2025!</p>
+    <!--       
         <div class="input-container">
             <input type="text" id="todoInput" placeholder="Add a new task..." />
             <button onclick="addTodo()">Add</button>
@@ -216,6 +216,7 @@ const htmlPage = `<!DOCTYPE html>
         <ul class="todo-list" id="todoList">
             <li class="empty-state">No tasks yet. Add one above to get started!</li>
         </ul>
+    -->
     </div>
     
     <script>
@@ -306,42 +307,6 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(htmlPage);
     } else if (pathname === '/image' && req.method === 'GET') {
-        fs.stat(IMAGE_PATH, async (err, stats) => {
-            if (err) {
-                // File doesn't exist, fetch it and serve
-                console.log('Image not found, fetching new one...');
-                try {
-                    await fetchAndSaveImage();
-                    fs.createReadStream(IMAGE_PATH).pipe(res);
-                } catch (e) {
-                    console.error("Failed to fetch image", e);
-                    res.writeHead(500);
-                    res.end('Error fetching image');
-                }
-            } else {
-                const now = new Date().getTime();
-                const mtime = new Date(stats.mtime).getTime();
-                const ageInMinutes = (now - mtime) / 1000 / 60;
-
-                console.log(`Image age: ${ageInMinutes.toFixed(2)} minutes`);
-
-                if (ageInMinutes > 10) {
-                    console.log('Image is old. Serving current and updating in background.');
-                    // Serve current (stale) image
-                    fs.createReadStream(IMAGE_PATH).pipe(res);
-
-                    // Update in background
-                    fetchAndSaveImage().then(() => {
-                        console.log('Background update complete.');
-                    }).catch(e => console.error('Background update failed', e));
-
-                } else {
-                    console.log('Image is fresh.');
-                    fs.createReadStream(IMAGE_PATH).pipe(res);
-                }
-            }
-        });
-    } else if (pathname === '/broken' && req.method === 'GET') {
         fs.stat(IMAGE_PATH, async (err, stats) => {
             if (err) {
                 // File doesn't exist, fetch it and serve
