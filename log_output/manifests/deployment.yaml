@@ -16,11 +16,10 @@ spec:
     spec:
       volumes:
       - name: shared-logs
-        persistentVolumeClaim:
-          claimName: shared-data-pvc
+        emptyDir: {}
       containers:
       - name: log-output-generator
-        image: gedionkip/k8s-submissions:1.11.1
+        image: gedionkip/k8s-submissions:2.1.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: shared-logs
@@ -29,7 +28,7 @@ spec:
         - name: STATUS_FILE
           value: "/shared/status.log"
       - name: log-output-reader
-        image: gedionkip/k8s-submissions:1.11.2
+        image: gedionkip/k8s-submissions:2.1.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
@@ -39,8 +38,8 @@ spec:
         env:
         - name: STATUS_FILE
           value: "/shared/status.log"
-        - name: COUNT_FILE
-          value: "/shared/count.log"
+        - name: PING_PONG_URL
+          value: "http://ping-pong-svc:80/pings"
 
 ---
 apiVersion: v1

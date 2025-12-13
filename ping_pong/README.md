@@ -1,45 +1,65 @@
 # Ping-pong and Log output
-Implemented persistent shared storage between Ping-pong and Log Output applications. Both deployments mount `shared-data-pvc` at `/shared`.
-The Ping-pong app persists the request counter and starts from the last saved value. The deployment has been updated to mount the PVC and set `COUNT_FILE`.
-The log generator now writes logs to `/shared/status.log` via the PVC.
 
-### Build and Push Images
+This project demonstrates two microservices, `Ping-pong` and `Log output`, communicating via HTTP.
+
+1.  **Ping-pong App**:
+    *   Exposes an HTTP endpoint `GET /` (or `/pingpong`) that returns a "pong N" message.
+    *   Exposes `GET /pings` to return just the current counter value `N`.
+    *   The counter is stored in-memory (reset on pod restart).
+
+2.  **Log-output App**:
+    *   Consists of a `log-generator` that writes timestamps to an internal ephemeral volume.
+    *   Consists of a `log-reader` that:
+        *   Reads the latest timestamp from the internal volume.
+        *   Fetches the current ping count from the `Ping-pong` app via `http://ping-pong-svc:80/pings`.
+        *   Aggregates and displays the status.
+
+The applications no longer share a Persistent Volume for communication.
+
+## Build and Push Images
+
 ```bash
-# PING-PONG
+# PING-PONG (v2.1.0)
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:1.11.0 \
+  -t gedionkip/k8s-submissions:2.1.0 \
+  --push \
+  ping_pong
+
+# LOG-GENERATOR (v2.1.1 - unchanged, just updating tags)
+cd ../log_output/log_generator
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:2.1.1 \
   --push \
   .
 
-# LOG-GENERATOR
-  cd ../log_output/log_generator
-  docker buildx build \
-    --platform linux/amd64,linux/arm64 \
-    -t gedionkip/k8s-submissions:1.11.1 \
-    --push \
-    .
-
-# LOG-READER
-  cd ../log_reader
-  docker buildx build \
-    --platform linux/amd64,linux/arm64 \
-    -t gedionkip/k8s-submissions:1.11.2 \
-    --push \
-    .
+# LOG-READER (v2.1.2)
+cd ../log_reader
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:2.1.2 \
+  --push \
+  .
 ```
-### Kubernetes Deployment
 
-To provision the storage and deploy the applications:
+## Kubernetes Deployment
+
+Deploy the applications and services:
+
 ```bash
+# Deploy Ping-pong
 kubectl apply -f ping_pong/manifests/
+
+# Deploy Log-output
 kubectl apply -f log_output/manifests/
 ```
 
-### Access the endpoint
-To see the applicaction endpoint which should show the latest timestamp/UUID and the persisted Ping / Pongs count:
-```bash
-curl http://INGRESS_IP/status
-```
+## Access
 
-![](./images/data-shared-log-output.png)
+Access the Log Output application through the Ingress:
+
+```bash
+curl http://ingress-ip/
+```
+![](./images/exercise-2-1.png)
