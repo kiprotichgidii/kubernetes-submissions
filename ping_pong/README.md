@@ -14,8 +14,6 @@ This project demonstrates two microservices, `Ping-pong` and `Log output`, commu
         *   Fetches the current ping count from the `Ping-pong` app via `http://ping-pong-svc:80/pings`.
         *   Aggregates and displays the status.
 
-The applications no longer share a Persistent Volume for communication.
-
 ## Build and Push Images
 
 ```bash
