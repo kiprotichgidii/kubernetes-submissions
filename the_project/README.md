@@ -30,8 +30,9 @@ docker buildx build \
 
 ## Kubernetes Deployment
 
+Create the necessary Kubernetes resources:
+
 ```bash
-# Apply Shared PVs/PVCs (if separate) or just the project manifests
 kubectl apply -f manifests/
 ```
 
@@ -42,6 +43,8 @@ The application is accessible via the Ingress Controller.
 ```bash
 http://ingress-controller-ip/
 ```
+
+![](./images/exercise-2-2.png)
 
 - **UI**: `/` and `/image` are served by Todo App (frontend container).
 - **API**: `/todos` is served by Todo Backend (backend container in the same pod).
