@@ -16,3 +16,10 @@ spec:
             name: todo-app-svc
             port:
               number: 30080
+      - path: /todos
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 80

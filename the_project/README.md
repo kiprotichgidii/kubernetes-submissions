@@ -1,12 +1,19 @@
-# To-do App
+# To-do App with Backend Service
 
 A simple to-do app that tracks your tasks and shows you a random image from Picsum every 10 minutes.
+The application is now split into two microservices:
+1. **Todo App (Frontend)**: Serves the HTML/JS and handles image caching.
+2. **Todo Backend**: API service handling Todo items storage and retrieval.
 
+## Architecture
 
-### Build and Push Image
+![Architecture](./images/todo-app-architecture.png)
 
-Build and push the image to Docker Hub repo: `gedionkip/k8s-submissions`:
+Browser talks to `Todo App` for the UI and `Todo Backend` for `/todos` operations via Ingress.
 
+## Build and Push Images
+
+### Frontend (Todo App)
 ```bash
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
@@ -15,18 +22,33 @@ docker buildx build \
   .
 ```
 
-### Kubernetes deployment
-
+### Backend (Todo Backend)
 ```bash
-# Apply the manifests
-kubectl apply -f manifests/
+cd todo_backend
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:2.2 \
+  --push \
+  .
 ```
 
-### Access the application
+## Kubernetes Deployment
 
-I'm running a 3-Node K8s cluster instead of using K3s. In the screenshot is the IP address of the ingress controller.
+```bash
+# Apply Shared PVs/PVCs (if separate) or just the project manifests
+kubectl apply -f manifests/
+
+# Deploy Backend
+kubectl apply -f todo_backend/manifests/
+```
+
+## Access the application
+
+The application is accessible via the Ingress Controller.
 
 ```bash
 http://ingress-controller-ip/
 ```
-![](./images/exercise-1-13.png)
+
+- **UI**: `/` and `/image` are served by Todo App.
+- **API**: `/todos` is served by Todo Backend (via Ingress routing).
