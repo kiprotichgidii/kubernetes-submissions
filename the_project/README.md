@@ -17,7 +17,7 @@ Browser talks to `Todo App` for the UI and `Todo Backend` for `/todos` operation
 ```bash
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:1.13 \
+  -t gedionkip/k8s-submissions:2.2.1 \
   --push \
   .
 ```
@@ -27,7 +27,7 @@ docker buildx build \
 cd todo_backend
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:2.2 \
+  -t gedionkip/k8s-submissions:2.2.2 \
   --push \
   .
 ```

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: gedionkip/k8s-submissions:todo-backend-0.1
+          image: gedionkip/k8s-submissions:2.2.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
