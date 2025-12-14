@@ -5,10 +5,6 @@ The application is now split into two microservices:
 1. **Todo App (Frontend)**: Serves the HTML/JS and handles image caching.
 2. **Todo Backend**: API service handling Todo items storage and retrieval.
 
-## Architecture
-
-![Architecture](./images/todo-app-architecture.png)
-
 Browser talks to `Todo App` for the UI and `Todo Backend` for `/todos` operations via Ingress.
 
 ## Build and Push Images
