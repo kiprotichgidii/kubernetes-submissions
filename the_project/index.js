@@ -316,8 +316,6 @@ const htmlPage = `<!DOCTYPE html>
         
         async function toggleTodo(id) {
             try {
-                // Determine current state (optional, or just blindly toggle if backend supports it)
-                // My backend implementation above supports PUT /todos/:id and toggles it.
                 const response = await fetch(\`/todos/\${id}\`, { method: 'PUT' });
                 if (response.ok) {
                     fetchTodos();
@@ -326,13 +324,6 @@ const htmlPage = `<!DOCTYPE html>
                 console.error('Error toggling todo:', error);
             }
         }
-        
-        // Removed deleteTodo entirely as it wasn't strictly requested to persist, 
-        // but let's keep it simple. If user wants delete, I need DELETE endpoint. 
-        // I didn't implement DELETE in backend. 
-        // I'll leave the UI button out for now or simpler logic.
-        // Wait, the previous code had delete. I should probably add DELETE to backend to be safe?
-        // Or just remove the delete button. The prompt focused on CREATE.
         
         document.getElementById('todoInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
