@@ -15,3 +15,5 @@
 - [1.12](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.12/the_project)
 - [1.13](https://github.com/kiprotichgidii/kubernetes-submissions/tree/1.13/the_project)
 - [2.1](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.1/ping_pong)
+- [2.2](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.2/the_project)
+
