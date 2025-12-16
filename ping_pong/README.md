@@ -46,6 +46,9 @@ docker buildx build \
 Deploy the applications and services:
 
 ```bash
+# Create Namespace
+kubectl create namespace exercises
+
 # Deploy Ping-pong
 kubectl apply -f ping_pong/manifests/
 
