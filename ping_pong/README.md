@@ -56,6 +56,13 @@ kubectl apply -f ping_pong/manifests/
 kubectl apply -f log_output/manifests/
 ```
 
+## Confirm Resouces
+```bash
+~❯ kubectl get pods -n exercises
+NAME                          READY   STATUS    RESTARTS   AGE
+log-output-65978bb5c9-9mtz6   2/2     Running   0          14m
+ping-pong-7c99d68c8f-pkjm5    1/1     Running   0          15m
+```
 ## Access
 
 Access the Log Output application through the Ingress:
