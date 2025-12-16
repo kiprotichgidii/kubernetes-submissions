@@ -38,7 +38,7 @@ Then apply the manifests:
 
 ```bash
 # Apply Namespace and Manifests
-kubectl apply -f manifests/
+kubectl apply -f the_project/manifests/
 ```
 
 This will:
