@@ -19,6 +19,7 @@
 - [2.3](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.3/ping_pong)
 - [2.4](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.4/the_project)
 - [2.5](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.5/log_output)
+- [2.6](https://github.com/kiprotichgidii/kubernetes-submissions/tree/2.6/the_project)
 
 
 
