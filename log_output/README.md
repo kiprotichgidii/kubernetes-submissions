@@ -10,7 +10,7 @@ This is the Log Output app implemented as **two separate Node.js applications in
     - Fetches the current ping count from the `ping-pong` service.
     - Returns all this information combined.
 
-### Build and Push Docker Images
+### Build and Push Docker Image
 
 Build and push the log redear app image:
 
@@ -30,23 +30,15 @@ The application runs in the `exercises` namespace.
 # Create Namespace (if not exists)
 kubectl create namespace exercises
 
-# Apply ConfigMap
-kubectl apply -f /log_output/manifests/
-```
-
-### Check the Application Logs
-
-```bash
-~❯ kubectl logs -n exercises -l app=log-output --all-containers=true     
-...
-Reader started on port 3000, serving file: /shared/status.log, fetching pongs from: http://ping-pong-svc:80/pings
+# Create the resources
+kubectl apply -f log_output/manifests/
 ```
 
 ### Accessing the HTTP GET endpoint
 
-Access the application via Ingress (e.g., `http://localhost/` or your cluster IP). The output will look like:
+Access the application via Ingress (e.g., `http://ingress-ip/` or your cluster IP).
 
-```text
+```bash
 file content: this text is from file
 env variable: MESSAGE=hello world
 2024-03-30T12:15:17.705Z: 8523ecb1-c716-4cb6-a044-b9e83bb98e43.
