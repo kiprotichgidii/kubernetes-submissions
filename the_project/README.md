@@ -11,43 +11,24 @@ Browser talks to `Todo App` for the UI and `Todo Backend` for `/todos` operation
 
 ### Frontend (Todo App)
 ```bash
+# Rebuild the todo-app image
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:2.2.1 \
-  --push \
-  .
-```
-
-### Backend (Todo Backend)
-```bash
-cd todo_backend
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:2.2.2 \
+  -t gedionkip/k8s-submissions:2.6 \
   --push \
   .
 ```
 
 ## Kubernetes Deployment
 
-Create the `project` namespace:
-```bash
-kubectl create namespace project
-```
+The application utilizes a **ConfigMap** to decouple configuration (like `IMAGE_URL`) from the code.
+
 Then apply the manifests:
 
 ```bash
-# Apply Namespace and Manifests
+# Apply ConfigMap, PVC, Deployment, Services, Ingress
 kubectl apply -f the_project/manifests/
 ```
-
-## Check the Resources
-```bash
-~❯ kubectl get pods -n project
-NAME                        READY   STATUS    RESTARTS   AGE
-todo-app-59f87cf95d-8jrst   2/2     Running   0          75s
-```
-
 ## Access the application
 
 The application is accessible via the Ingress Controller.
@@ -57,6 +38,3 @@ http://ingress-controller-ip/
 ```
 
 ![](./images/exercise-2-2.png)
-
-- **UI**: `/` and `/image` are served by Todo App (frontend container).
-- **API**: `/todos` is served by Todo Backend (backend container in the same pod).
