@@ -38,9 +38,11 @@ function fetchImageWithRedirects(urlStr, resolve, reject) {
     });
 }
 
+const IMAGE_URL = process.env.IMAGE_URL || 'https://picsum.photos/800/400';
+
 async function fetchAndSaveImage() {
     return new Promise((resolve, reject) => {
-        fetchImageWithRedirects('https://picsum.photos/800/400', resolve, reject);
+        fetchImageWithRedirects(IMAGE_URL, resolve, reject);
     });
 }
 

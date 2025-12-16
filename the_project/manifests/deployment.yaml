@@ -15,13 +15,18 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: gedionkip/k8s-submissions:2.2.1
+          image: gedionkip/k8s-submissions:2.6
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
             - name: PORT
               value: "8080"
+            - name: IMAGE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: project-config
+                  key: IMAGE_URL
           volumeMounts:
             - name: todo-app-storage
               mountPath: /app/cache
