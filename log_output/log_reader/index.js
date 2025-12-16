@@ -38,10 +38,22 @@ function getPongs() {
 }
 
 // --- HTTP endpoint to get current status + ping/pong count ---
+const CONFIG_FILE_PATH = process.env.CONFIG_FILE_PATH || '/etc/config/information.txt';
+const MESSAGE = process.env.MESSAGE || 'default message';
+
 app.get('/', async (req, res) => {
   try {
     const latestStatus = readLatestStatusLine();
     const count = await getPongs();
+
+    // Read config file content
+    let fileContent = '';
+    try {
+      fileContent = fs.readFileSync(CONFIG_FILE_PATH, 'utf8').trim();
+    } catch (err) {
+      console.error('Error reading config file:', err.message);
+      fileContent = 'Error reading file';
+    }
 
     if (!latestStatus) {
       return res
@@ -50,8 +62,7 @@ app.get('/', async (req, res) => {
         .send('No data written yet.\n');
     }
 
-    const pongText = count !== null ? `Ping / Pongs: ${count}` : 'Ping / Pongs: Error';
-    const response = `${latestStatus}\n\nPing / Pongs: ${count}\n`;
+    const response = `file content: ${fileContent}\nenv variable: MESSAGE=${MESSAGE}\n${latestStatus}\n\nPing / Pongs: ${count}\n`;
     res.type('text/plain').send(response);
   } catch (err) {
     console.error(err);
