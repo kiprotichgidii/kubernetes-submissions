@@ -30,11 +30,20 @@ docker buildx build \
 
 ## Kubernetes Deployment
 
-Create the necessary Kubernetes resources:
+Create the `project` namespace:
+```bash
+kubectl create namespace project
+```
+Then apply the manifests:
 
 ```bash
+# Apply Namespace and Manifests
 kubectl apply -f manifests/
 ```
+
+This will:
+1. Create the `project` namespace.
+2. Deploy the PVC, Deployment, Services, and Ingress into the `project` namespace.
 
 ## Access the application
 
