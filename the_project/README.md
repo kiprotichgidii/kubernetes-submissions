@@ -41,9 +41,12 @@ Then apply the manifests:
 kubectl apply -f the_project/manifests/
 ```
 
-This will:
-1. Create the `project` namespace.
-2. Deploy the PVC, Deployment, Services, and Ingress into the `project` namespace.
+## Check the Resources
+```bash
+~❯ kubectl get pods -n project
+NAME                        READY   STATUS    RESTARTS   AGE
+todo-app-59f87cf95d-8jrst   2/2     Running   0          75s
+```
 
 ## Access the application
 
