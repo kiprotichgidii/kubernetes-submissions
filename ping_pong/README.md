@@ -1,6 +1,4 @@
-# Ping-pong and Log output
-
-This project demonstrates two microservices, `Ping-pong` and `Log output`, communicating via HTTP.
+# Ping-pong 
 
 1.  **Ping-pong App**:
     *   Exposes an HTTP endpoint `GET /` (or `/pingpong`) that returns a "pong N" message.
@@ -8,12 +6,6 @@ This project demonstrates two microservices, `Ping-pong` and `Log output`, commu
     *   Exposes `GET /pings` to return just the current counter value `N`.
     *   The counter is persisted in a Postgres database.
 
-2.  **Log-output App**:
-    *   Consists of a `log-generator` that writes timestamps to an internal ephemeral volume.
-    *   Consists of a `log-reader` that:
-        *   Reads the latest timestamp from the internal volume.
-        *   Fetches the current ping count from the `Ping-pong` app via `http://ping-pong-svc:80/pings`.
-        *   Aggregates and displays the status.
 
 ## Build and Push Images
 
@@ -32,23 +24,20 @@ Deploy the applications and services:
 ```bash
 # Deploy Ping-pong
 kubectl apply -f ping_pong/manifests/
-
-# Deploy Log-output
-kubectl apply -f log_output/manifests/
 ```
 
-## Confirm Resouces
+## Confirm Resources
 ```bash
 ~❯ kubectl get pods -n exercises
-NAME                          READY   STATUS    RESTARTS   AGE
-log-output-65978bb5c9-9mtz6   2/2     Running   0          14m
-ping-pong-7c99d68c8f-pkjm5    1/1     Running   0          15m
+NAME                         READY   STATUS    RESTARTS   AGE
+ping-pong-6f98f7d4fb-847k7   1/1     Running   0          5m
+postgres-db-0                1/1     Running   0          5m
 ```
 ## Access
 
 Access the Log Output application through the Ingress:
 
 ```bash
-curl http://ingress-ip/
+curl http://ingress-ip/pingpong
 ```
-![](./images/exercise-2-1.png)
+Every time the pod is deleted and restarted, the counter persists and picks up from where it left off.
