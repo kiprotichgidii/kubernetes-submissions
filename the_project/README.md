@@ -1,4 +1,4 @@
-# To-do App with Backend Service
+# To-do App with Postgres
 
 A simple to-do app that tracks your tasks and shows you a random image from Picsum every 10 minutes.
 The application is now split into two microservices:
@@ -44,6 +44,7 @@ postgres=# SELECT * FROM todos;
 To test persistence, we delete the pod and let it recreate then check the todo list again:
 ```bash
 ~❯kubectl delete pod -n project -l app=todo-app
+pod "todo-app-78d98d9969-8jw9q" deleted
 
 ~❯kubectl get pods -n project
 NAME                        READY   STATUS    RESTARTS   AGE
