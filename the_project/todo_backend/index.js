@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -7,41 +8,85 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-let todos = [];
-let nextId = 1;
+const pool = new Pool({
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: process.env.POSTGRES_PORT || 5432,
+});
+
+const connectToDb = async () => {
+    try {
+        await pool.query(`
+        CREATE TABLE IF NOT EXISTS todos (
+          id Serial PRIMARY KEY,
+          text VARCHAR(140) NOT NULL,
+          completed BOOLEAN DEFAULT FALSE
+        );
+      `);
+        console.log('Connected to database and table ensured');
+    } catch (err) {
+        console.error('Error connecting to database', err);
+        setTimeout(connectToDb, 5000);
+    }
+};
+
+connectToDb();
 
 app.get('/', (req, res) => {
     res.send('Todo Backend Online');
 });
 
-app.get('/todos', (req, res) => {
-    res.json(todos);
+app.get('/todos', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM todos ORDER BY id');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
 });
 
-app.post('/todos', (req, res) => {
+app.post('/todos', async (req, res) => {
     const { text } = req.body;
     if (!text || text.length > 140) {
         return res.status(400).json({ error: 'Invalid todo text' });
     }
 
-    const newTodo = {
-        id: nextId++,
-        text,
-        completed: false
-    };
-    todos.push(newTodo);
-    console.log('Added todo:', newTodo);
-    res.status(201).json(newTodo);
+    try {
+        const result = await pool.query(
+            'INSERT INTO todos (text, completed) VALUES ($1, $2) RETURNING *',
+            [text, false]
+        );
+        const newTodo = result.rows[0];
+        console.log('Added todo:', newTodo);
+        res.status(201).json(newTodo);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
+    }
 });
 
-app.put('/todos/:id', (req, res) => {
+app.put('/todos/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    const todo = todos.find(t => t.id === id);
-    if (todo) {
-        todo.completed = !todo.completed;
-        res.json(todo);
-    } else {
-        res.status(404).json({ error: 'Todo not found' });
+    try {
+        // Toggle completed status. First get current status.
+        // Actually slightly more complex atomically, but let's do fetch-update for simplicity matching previous logic style
+        // Or better: UPDATE todos SET completed = NOT completed WHERE id = $1 RETURNING *
+        const result = await pool.query(
+            'UPDATE todos SET completed = NOT completed WHERE id = $1 RETURNING *',
+            [id]
+        );
+
+        if (result.rowCount > 0) {
+            res.json(result.rows[0]);
+        } else {
+            res.status(404).json({ error: 'Todo not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database error' });
     }
 });
 
