@@ -15,9 +15,6 @@ app.get('/pings', (req, res) => {
   res.send(String(counter));
 });
 
-// Diagram implies /pingpong is the main one. 
-// But I'm keeping / as alias to /pingpong just in case or 404.
-
 app.listen(PORT, () => {
   console.log(`Pingpong app listening on port ${PORT}`);
 });
