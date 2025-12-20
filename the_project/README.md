@@ -25,3 +25,26 @@ Fetched URL: https://en.wikipedia.org/wiki/Doto_orcha
 {"id":4,"text":"Read https://en.wikipedia.org/wiki/Doto_orcha","completed":false}%
 ```
 The todo item is added to the todo list.
+```bash
+http://ingress-ip/todos
+```
+Sample Output:
+```json
+[
+  {
+    "id": 1,
+    "text": "Read https://en.wikipedia.org/wiki/Mario_Orfeo",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "text": "Read https://en.wikipedia.org/wiki/Sheriff_Isa",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "text": "Read https://en.wikipedia.org/wiki/Petar_Krsti%C4%87_(footballer)",
+    "completed": false
+  }
+]
+```
