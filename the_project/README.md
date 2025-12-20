@@ -1,56 +1,27 @@
-# To-do App with Postgres
+# To-do Cronjob
+Added a cronjob that runs every hour. It uses the `curlimages/curl` container to fetch a random Wikipedia article and add it to the todo list.
 
-A simple to-do app that tracks your tasks and shows you a random image from Picsum every 10 minutes.
-The application is now split into two microservices:
-1. **Todo App (Frontend)**: Serves the HTML/JS and handles image caching.
-2. **Todo Backend**: Stores todo items in a PostgreSQL database.
-
-Browser talks to `Todo App` for the UI and `Todo Backend` for `/todos` operations via Ingress.
-
-### Rebuild the Todo Backend
+### Apply Manifest
 ```bash
-# Rebuild the todo-app image
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:2.8 \
-  --push \
-  .
+kubectl apply -f the_project/manifests/cronjob.yaml
+```
+### Trigger Job
+Manually create a job from the created cronjob:
+```bash
+kubectl create job --from=cronjob/hourly-todo-job -n project todo-job
 ```
 
-## Kubernetes Deployment
-
-The application utilizes **ConfigMaps** and **Secrets** to decouple configurations such as the Database credentials and the Image URL from the code.
-
-Apply the manifests:
-
+### Check Logs
 ```bash
-kubectl apply -f the_project/manifests/
+kubectl logs -n project job/todo-job
 ```
-## Access the Postgres DB
 
+Example Output:
 ```bash
-~❯ kubectl exec -it -n project postgres-db-0 -- psql -U postgres
-psql (17.7 (Debian 17.7-3.pgdg13+1))
-Type "help" for help.
-
-postgres=# SELECT * FROM todos;
- id |  text   | completed
-----+---------+-----------
-  1 | Plan    | f
-  2 | Execute | f
-  3 | Deploy  | f
-(3 rows)
+Fetched URL: https://en.wikipedia.org/wiki/Doto_orcha
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   137 100    81 100    56  3063  2118  --:--:-- --:--:-- --:--:--  5269
+{"id":4,"text":"Read https://en.wikipedia.org/wiki/Doto_orcha","completed":false}%
 ```
-To test persistence, we delete the pod and let it recreate then check the todo list again:
-```bash
-~❯kubectl delete pod -n project -l app=todo-app
-pod "todo-app-78d98d9969-8jw9q" deleted
-
-~❯kubectl get pods -n project
-NAME                        READY   STATUS    RESTARTS   AGE
-postgres-db-0               1/1     Running   0          41m
-todo-app-78d98d9969-65ppm   2/2     Running   0          44s
-```
-Access the `/todos` endpoint to see the todos list:
-
-![](./images/todo-items.png)
+The todo item is added to the todo list.
