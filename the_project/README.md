@@ -8,7 +8,7 @@ kubectl apply -f the_project/manifests/cronjob.yaml
 ### Trigger Job
 Manually create a job from the created cronjob:
 ```bash
-kubectl create job --from=cronjob/hourly-todo-job -n project todo-job
+kubectl create job --from=cronjob/todo-cron-job -n project todo-job
 ```
 
 ### Check Logs
