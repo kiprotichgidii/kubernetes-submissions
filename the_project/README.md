@@ -1,50 +1,44 @@
-# To-do Cronjob
-Added a cronjob that runs every hour. It uses the `curlimages/curl` container to fetch a random Wikipedia article and add it to the todo list.
-
-### Apply Manifest
+## Monitoring (Grafana + Loki)
+Add the Helm repository for the `loki-stack` chart:
 ```bash
-kubectl apply -f the_project/manifests/cronjob.yaml
-```
-### Trigger Job
-Manually create a job from the created cronjob:
-```bash
-kubectl create job --from=cronjob/todo-cron-job -n project todo-job
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
 ```
 
-### Check Logs
+Install the `loki-stack` chart:
 ```bash
-kubectl logs -n project job/todo-job
+helm install loki-stack grafana/loki-stack \
+    --set grafana.enabled=true \
+    --namespace=loki-stack --create-namespace
 ```
 
-Example Output:
-```bash
-Fetched URL: https://en.wikipedia.org/wiki/Doto_orcha
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   137 100    81 100    56  3063  2118  --:--:-- --:--:-- --:--:--  5269
-{"id":4,"text":"Read https://en.wikipedia.org/wiki/Doto_orcha","completed":false}%
-```
-The todo item is added to the todo list.
-```bash
-http://ingress-ip/todos
-```
-Sample Output:
-```json
-[
-  {
-    "id": 1,
-    "text": "Read https://en.wikipedia.org/wiki/Mario_Orfeo",
-    "completed": false
-  },
-  {
-    "id": 2,
-    "text": "Read https://en.wikipedia.org/wiki/Sheriff_Isa",
-    "completed": false
-  },
-  {
-    "id": 3,
-    "text": "Read https://en.wikipedia.org/wiki/Petar_Krsti%C4%87_(footballer)",
-    "completed": false
-  }
-]
-```
+Logging and monitoring are deployed in the `loki-stack` namespace using `loki-stack`.
+
+### Access Grafana
+
+**Get Admin Password**:
+   ```bash
+   kubectl get secret --namespace loki-stack loki-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+   ```
+
+**Port-Forward**:
+   ```bash
+   kubectl port-forward --namespace loki-stack service/loki-stack-grafana 3000:80
+   ```
+
+**Login**:
+   - URL: `http://localhost:3000`
+   - User: `admin`
+   - Password: (output from step 1)
+
+### Check Live Logs in Grafana
+1. Go to **Explore**.
+2. Select **Loki** as the data source.
+3. Query: `{app="todo-app"}`
+4. Trigger a log (e.g., send a too-long todo):
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d '{"text":"This is a very long todo text that definitely exceeds the limit of 140 characters so that we can verify that the backend correctly rejects it and logs a warning message as intended."}' http://ingress-ip/todos
+   ```
+5. Observe the warning log in Grafana.
+
+![](./images/grafana-loki-logs.png)
