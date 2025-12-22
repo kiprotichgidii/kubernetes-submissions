@@ -8,6 +8,11 @@ docker buildx build \
   --push \
   .
 ```
+## Redeploy the Todo App
+
+```bash
+kubectl apply -f the_project/manifests/
+```
 ## Deploy Grafana and Loking using Helm
 Add the Helm repository for the `loki-stack` chart:
 ```bash
