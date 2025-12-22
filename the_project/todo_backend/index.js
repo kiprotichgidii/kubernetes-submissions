@@ -50,7 +50,11 @@ app.get('/todos', async (req, res) => {
 
 app.post('/todos', async (req, res) => {
     const { text } = req.body;
+
+    console.log(`Received todo request: ${text}`);
+
     if (!text || text.length > 140) {
+        console.warn(`Todo validation failed. Length: ${text ? text.length : 0}. Text: ${text}`);
         return res.status(400).json({ error: 'Invalid todo text' });
     }
 
@@ -71,9 +75,6 @@ app.post('/todos', async (req, res) => {
 app.put('/todos/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     try {
-        // Toggle completed status. First get current status.
-        // Actually slightly more complex atomically, but let's do fetch-update for simplicity matching previous logic style
-        // Or better: UPDATE todos SET completed = NOT completed WHERE id = $1 RETURNING *
         const result = await pool.query(
             'UPDATE todos SET completed = NOT completed WHERE id = $1 RETURNING *',
             [id]
