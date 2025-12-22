@@ -1,4 +1,14 @@
-## Monitoring (Grafana + Loki)
+# Monitoring (Grafana + Loki)
+## Rebuild Todo Backend
+Rebuild the Todo Backend with Request Logging feature and todo length validation.
+```bash
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:2.10 \
+  --push \
+  .
+```
+## Deploy Grafana and Loking using Helm
 Add the Helm repository for the `loki-stack` chart:
 ```bash
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -41,4 +51,4 @@ Logging and monitoring are deployed in the `loki-stack` namespace using `loki-st
    ```
 5. Observe the warning log in Grafana.
 
-![](./images/grafana-loki-logs.png)
+![](./images/grafana-loki-logs-1.png)
