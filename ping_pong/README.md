@@ -17,13 +17,19 @@ docker buildx build \
   .
 ```
 
-## Kubernetes Deployment
+## Kubernetes Deployment (GKE)
 
-Deploy the applications and services:
+Deploy the application and database to your GKE cluster:
 
 ```bash
-# Deploy Ping-pong
-kubectl apply -f ping_pong/manifests/
+# Create namespace
+kubectl apply -f ping_pong/manifests/namespace.yaml
+
+# Deploy Postgres
+kubectl apply -f ping_pong/manifests/postgres.yaml
+
+# Deploy Ping-pong App with LoadBalancer
+kubectl apply -f ping_pong/manifests/deployment.yaml
 ```
 
 ## Confirm Resources
@@ -35,9 +41,16 @@ postgres-db-0                1/1     Running   0          5m
 ```
 ## Access
 
-Access the Log Output application through the Ingress:
+The service is exposed via a LoadBalancer. To access it:
 
-```bash
-curl http://ingress-ip/pingpong
-```
-Every time the pod is deleted and restarted, the counter persists and picks up from where it left off.
+1.  Get the external IP address:
+    ```bash
+    kubectl get svc -n exercises ping-pong-svc
+    ```
+
+2.  Access the application:
+    ```bash
+    curl http://<EXTERNAL-IP>/pingpong
+    ```
+
+The counter is persisted in the Postgres database, surviving pod restarts.
