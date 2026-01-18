@@ -5,7 +5,7 @@
     *   Exposes `GET /pings` to return just the current counter value `N`.
     *   The counter is persisted in a Postgres database.
 
-## Kubernetes Deployment (GKE)
+## Deployment on Google Kubernetes Engine
 
 Deploy the application and database to your GKE cluster:
 
