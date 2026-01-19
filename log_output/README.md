@@ -6,12 +6,14 @@ Exercise 3.3: To the Gateway
 The application runs in the `exercises` namespace.
 
 ```bash
-# Deploy Ping-pong
+# Create the exercises namespace
 kubectl apply -f ping_pong/manifests/namespace.yaml
-kubectl apply -f ping_pong/manifests/
 
 # Deploy log-output & log-reader with Gateway
 kubectl apply -f log_output/manifests/
+
+# Deploy the Pingpong app
+kubectl apply -f ping_pong/manifests/
 ```
 
 ### Get the Gateway IP
