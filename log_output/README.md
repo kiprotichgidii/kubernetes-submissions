@@ -1,7 +1,19 @@
 # Log Output & Pingpong
-Exercise 3.3: To the Gateway
+Exercise 3.4: Rewritten Routing
 
-### Kubernetes Deployment
+### Build and Push Docker Image
+Build and Push the pingpong app image:
+
+```bash
+cd ping_pong
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:3.4 \
+  --push \
+  .
+```
+
+### Kubernetes Deployment (GKE)
 
 The application runs in the `exercises` namespace.
 
