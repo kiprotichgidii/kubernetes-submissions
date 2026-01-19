@@ -37,7 +37,7 @@ const connectToDb = async () => {
 
 connectToDb();
 
-app.get('/', async (req, res) => {
+app.get('/pingpong', async (req, res) => {
   try {
     const result = await pool.query('UPDATE pings SET count = count + 1 WHERE id = 1 RETURNING count');
     const count = result.rows[0].count;
@@ -46,6 +46,10 @@ app.get('/', async (req, res) => {
     console.error(err);
     res.status(500).send('Database error');
   }
+});
+
+app.get('/', (req, res) => {
+  res.status(200).send('OK');
 });
 
 app.get('/pings', async (req, res) => {
