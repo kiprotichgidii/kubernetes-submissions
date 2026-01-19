@@ -1,18 +1,6 @@
 # Log Output & Pingpong
-Exercise 3.2
+Exercise 3.3: To the Gateway
 
-### Build and Push Docker Image
-
-Build and push the log-reader app image:
-
-```bash
-cd ping_pong
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:3.2 \
-  --push \
-  .
-```
 ### Kubernetes Deployment
 
 The application runs in the `exercises` namespace.
@@ -22,16 +10,16 @@ The application runs in the `exercises` namespace.
 kubectl apply -f ping_pong/manifests/namespace.yaml
 kubectl apply -f ping_pong/manifests/
 
-# Deploy log-output & log-reader
+# Deploy log-output & log-reader with Gateway
 kubectl apply -f log_output/manifests/
 ```
 
-### Get the Ingress IP
+### Get the Gateway IP
 
 ```bash
-kubectl get ingress -n exercises
+kubectl get gateway -n exercises
 ```
 
-### Accessing the HTTP GET endpoint
+### Accessing the Endpoint
 
-Access the application via Ingress (e.g., `http://ingress-ip/` or your cluster IP).
+Access the application via the Gateway IP (e.g., `http://<GATEWAY-IP>/` or `http://<GATEWAY-IP>/pingpong`).
