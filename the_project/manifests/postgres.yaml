@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:17
+        image: postgres
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -39,13 +39,14 @@ spec:
         volumeMounts:
         - name: postgres-pvc
           mountPath: /var/lib/postgresql/data
+          subPath: postgres
   volumeClaimTemplates:
   - metadata:
       name: postgres-pvc
     spec:
       accessModes:
         - ReadWriteOnce
-      storageClassName: local-path
+      storageClassName: standard-rwo
       resources:
         requests:
           storage: 1Gi
