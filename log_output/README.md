@@ -1,5 +1,5 @@
 # Log Output & Pingpong
-
+Exercise 3.2
 
 ### Build and Push Docker Image
 
