@@ -2,7 +2,7 @@ name: Deploy to GKE
 
 on:
   workflow_dispatch:
-  push:
+  #push:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -73,12 +73,22 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
+      - name: Set Namespace
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "NAMESPACE=project" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=${{ github.ref_name }}" >> $GITHUB_ENV
+          fi
+
       - name: Deploy to GKE
         run: |-
           cd the_project
+          kubectl create namespace $NAMESPACE || true
+          kubectl config set-context --current --namespace=$NAMESPACE
+          kustomize edit set namespace $NAMESPACE
           kustomize edit set image todo-app=$IMAGE_FRONTEND
           kustomize edit set image todo-backend=$IMAGE_BACKEND
           kustomize build . | kubectl apply -f -
-        #   # sleep 600
-        #   kubectl -n project rollout status deployment $SERVICE
-        #   kubectl -n project get services
+          kubectl rollout status deployment todo-app
+          kubectl get services -o wide
