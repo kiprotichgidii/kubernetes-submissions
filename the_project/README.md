@@ -1,6 +1,4 @@
-# The Project
-Exercise 3.9: DBaaS vs DIY
-
+# Exercise 3.9: DBaaS vs DIY
 
 ## Database Solutions Comparison: Cloud SQL vs. Self-Hosted Legacy
 
