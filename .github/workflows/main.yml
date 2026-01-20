@@ -93,3 +93,4 @@ jobs:
           sleep 600
           kubectl rollout status deployment todo-app
           kubectl get services -o wide
+          
