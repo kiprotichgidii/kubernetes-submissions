@@ -35,4 +35,4 @@ Getting Started
 - [3.5](https://github.com/kiprotichgidii/kubernetes-submissions/tree/3.5/the_project)
 - [3.6](https://github.com/kiprotichgidii/kubernetes-submissions/tree/3.6/the_project)
 - [3.7](https://github.com/kiprotichgidii/kubernetes-submissions/tree/3.7/the_project)
-
+- [3.8](https://github.com/kiprotichgidii/kubernetes-submissions/tree/3.8/the_project)
