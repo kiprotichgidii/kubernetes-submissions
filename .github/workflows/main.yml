@@ -78,8 +78,7 @@ jobs:
           cd the_project
           kustomize edit set image todo-app=$IMAGE_FRONTEND
           kustomize edit set image todo-backend=$IMAGE_BACKEND
-          kubectl delete -k .
-        #   kustomize build . | kubectl apply -f -
+          kustomize build . | kubectl apply -f -
         #   # sleep 600
         #   kubectl -n project rollout status deployment $SERVICE
         #   kubectl -n project get services
