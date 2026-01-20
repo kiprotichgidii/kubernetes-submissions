@@ -89,7 +89,8 @@ jobs:
           kustomize edit set namespace $NAMESPACE
           kustomize edit set image todo-app=$IMAGE_FRONTEND
           kustomize edit set image todo-backend=$IMAGE_BACKEND
-          kustomize build . | kubectl apply -f -
-          sleep 600
-          kubectl rollout status deployment todo-app
-          kubectl get services -o wide
+          kubectl delete -k .
+        #   kustomize build . | kubectl apply -f -
+        #   sleep 600
+        #   kubectl rollout status deployment todo-app
+        #   kubectl get services -o wide
