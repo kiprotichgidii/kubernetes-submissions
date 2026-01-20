@@ -2,6 +2,7 @@ name: Deploy to GKE
 
 on:
   workflow_dispatch:
+  push:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -78,6 +79,6 @@ jobs:
           kustomize edit set image todo-app=$IMAGE_FRONTEND
           kustomize edit set image todo-backend=$IMAGE_BACKEND
           kustomize build . | kubectl apply -f -
-          sleep 600
+          # sleep 600
           kubectl -n project rollout status deployment $SERVICE
           kubectl -n project get services
