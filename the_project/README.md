@@ -1,14 +1,12 @@
 # The Project
-Exercise 3.6: The project, step 15
+Exercise 3.8: The project, step 17
 
-## Deploy to GKE with GitHub Actions
+## Branch-based deletion of GKE Resources with GitHub Actions
 
-The project is configured for automated deployment using GitHub Actions.
+The project is configured for automated deletion of resources using GitHub Actions.
 
-- **Workflow**: `.github/workflows/main.yml`
-- **Trigger**: Manual via GitHub "Actions" tab (Workflow Dispatch) or on push to main (if configured).
+- **Workflow**: `.github/workflows/delete.yml`
+- **Trigger**: Delete a deployment branch.
 - **Process**:
-    1.  Builds `todo-app` and `todo-backend` Docker images.
-    2.  Pushes images to Google Artifact Registry.
-    3.  Deploys to GKE using Kustomize (replacing image tags).
-    4.  Waits for rollout (Deployment strategy is set to `Recreate` to handle `ReadWriteOnce` volumes).
+    1.  Deletes the namespace and all resources in it.
+
