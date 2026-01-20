@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-app
-          image: gedionkip/k8s-submissions:2.6
+          image: todo-app
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -31,7 +31,7 @@ spec:
             - name: todo-app-storage
               mountPath: /app/cache
         - name: todo-backend
-          image: gedionkip/k8s-submissions:2.10
+          image: todo-backend
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
