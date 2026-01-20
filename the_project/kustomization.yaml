@@ -16,4 +16,9 @@ images:
     newTag: latest
   - name: postgres
     newTag: "17"
-    
+  - name: todo-app
+    newName: gedionkip/k8s-submissions
+    newTag: "2.6"
+  - name: todo-backend
+    newName: gedionkip/k8s-submissions
+    newTag: "2.10"
