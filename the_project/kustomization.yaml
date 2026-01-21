@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - manifests/configmap.yaml
   - manifests/cronjob.yaml
+  - manifests/backup-cronjob.yaml
   - manifests/pvc.yaml
   - manifests/deployment.yaml
   - manifests/ingress.yaml
@@ -21,3 +22,6 @@ images:
   - name: todo-backend
     newName: gedionkip/k8s-submissions
     newTag: "2.10"
+  - name: db-backup
+    newName: google/cloud-sdk
+    newTag: "alpine"
