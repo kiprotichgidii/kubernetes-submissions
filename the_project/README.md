@@ -1,12 +1,17 @@
-## Exercise 3.11: The project, step 19
+## Exercise 3.12: The project, step 20
 
-### Resource Limits
+## GKE Monitoring
 
-Resource requests and limits have been defined for all containers to ensure stability and fair scheduling.
+GKE has Cloud Logging and Monitoring enabled by default. To verify that logs are being captured:
 
-| Container | CPU Request | Memory Request | CPU Limit | Memory Limit |
-| :--- | :--- | :--- | :--- | :--- |
-| `todo-app` (Frontend) | `100m` | `128Mi` | `200m` | `256Mi` |
-| `todo-backend` (API) | `100m` | `128Mi` | `200m` | `256Mi` |
-| `postgres` (Database) | `200m` | `256Mi` | `1000m` | `512Mi` |
+On the Google Cloud Console > **Logging** > **Logs Explorer**.
+
+Query for the backend pod:
+```
+resource.type="k8s_container"
+resource.labels.project_id="YOUR_PROJECT_ID"
+resource.labels.container_name="todo-backend"
+```
+
+![](./images/dwk-gke-project-logs.png)
 
