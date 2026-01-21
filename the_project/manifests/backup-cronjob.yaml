@@ -16,14 +16,16 @@ spec:
             args:
               - |
                 set -e
-                echo "Installing dependencies..."
-                apk add --no-cache postgresql-client
+                echo "Installing GCloud SDK..."
+                apk add --no-cache python3 curl bash
+                curl -sSL https://sdk.cloud.google.com | bash
+                export PATH=$PATH:/root/google-cloud-sdk/bin
 
                 echo "Authenticating..."
                 gcloud auth activate-service-account --key-file=/var/secrets/google/key.json
 
                 echo "Creating backup..."
-                pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER $POSTGRES_DB > /tmp/backup.sql
+                PGPASSWORD=$PGPASSWORD pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER $POSTGRES_DB > /tmp/backup.sql
 
                 echo "Uploading to GCS..."
                 gsutil cp /tmp/backup.sql gs://gidii-dwk-k8s-backups/backup-$(date +%Y-%m-%d).sql

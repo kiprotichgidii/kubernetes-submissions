@@ -23,5 +23,5 @@ images:
     newName: gedionkip/k8s-submissions
     newTag: "2.10"
   - name: db-backup
-    newName: google/cloud-sdk
-    newTag: "alpine"
+    newName: postgres
+    newTag: "17-alpine"
