@@ -90,6 +90,6 @@ jobs:
           kustomize edit set image todo-app=$IMAGE_FRONTEND
           kustomize edit set image todo-backend=$IMAGE_BACKEND
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment todo-app
-          #kubectl get services -o wide
+        #   kubectl rollout status deployment todo-app
+        #   kubectl get services -o wide
           
