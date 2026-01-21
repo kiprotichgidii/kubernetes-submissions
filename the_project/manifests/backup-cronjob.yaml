@@ -11,15 +11,42 @@ spec:
         spec:
           containers:
           - name: backup
-            image: postgres-backup
+            image: postgres:17
             command: ["/bin/sh", "-c"]
             args:
               - |
                 set -e
-                echo "Installing GCloud SDK..."
-                apk add --no-cache python3 curl bash
-                curl -sSL https://sdk.cloud.google.com | bash
-                export PATH=$PATH:/root/google-cloud-sdk/bin
+                GCLOUD_VERSION="466.0.0"
+
+                echo "Updating apt cache..."
+                apt-get update -y
+
+                echo "Installing dependencies..."
+                apt-get install -y \
+                    curl \
+                    python3 \
+                    bash \
+                    ca-certificates \
+                    gnupg \
+                    lsb-release
+
+                echo "Downloading Google Cloud SDK..."
+                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz
+
+                echo "Extracting Google Cloud SDK..."
+                tar -xf google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz -C /usr/local/
+
+                echo "Installing Google Cloud SDK..."
+                /usr/local/google-cloud-sdk/install.sh \
+                  --quiet \
+                  --usage-reporting=false \
+                  --path-update=false \
+                  --bash-completion=false \
+                  --rc-path=/dev/null
+
+                echo "Linking gcloud binary..."
+                ln -s /usr/local/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+                ln -s /usr/local/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil
 
                 echo "Authenticating..."
                 gcloud auth activate-service-account --key-file=/var/secrets/google/key.json

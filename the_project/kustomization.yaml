@@ -22,6 +22,3 @@ images:
   - name: todo-backend
     newName: gedionkip/k8s-submissions
     newTag: "2.10"
-  - name: postgres-backup
-    newName: postgres
-    newTag: "17-alpine"
