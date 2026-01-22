@@ -59,6 +59,16 @@ app.get('/pings', async (req, res) => {
   }
 });
 
+
+app.get('/healthz', async (req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.status(200).send('ok');
+  } catch (err) {
+    res.status(500).send('error');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Pingpong app listening on port ${PORT}`);
 });
