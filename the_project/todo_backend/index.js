@@ -38,6 +38,16 @@ app.get('/', (req, res) => {
     res.send('Todo Backend Online');
 });
 
+app.get('/healthz', async (req, res) => {
+    try {
+        await pool.query('SELECT 1');
+        res.status(200).send('ok');
+    } catch (err) {
+        console.error('Health check failed', err);
+        res.status(500).send('error');
+    }
+});
+
 app.get('/todos', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM todos ORDER BY id');
