@@ -42,3 +42,4 @@ Getting Started
 - [3.12](https://github.com/kiprotichgidii/kubernetes-submissions/tree/3.12/the_project)
 ### Chapter 5
 - [4.1](https://github.com/kiprotichgidii/kubernetes-submissions/tree/4.1/ping_pong)
+- [4.2](https://github.com/kiprotichgidii/kubernetes-submissions/tree/4.2/the_project)
