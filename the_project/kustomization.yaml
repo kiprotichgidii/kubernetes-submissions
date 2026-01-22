@@ -7,7 +7,7 @@ resources:
   - manifests/backup-cronjob.yaml
   - manifests/pvc.yaml
   - manifests/deployment.yaml
-  - manifests/ingress.yaml
+  - manifests/gateway-route.yaml
   - manifests/secret.yaml
   - manifests/postgres.yaml
 
@@ -21,4 +21,4 @@ images:
     newTag: "2.6"
   - name: todo-backend
     newName: gedionkip/k8s-submissions
-    newTag: "2.10"
+    newTag: "4.2"
