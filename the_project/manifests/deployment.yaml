@@ -41,7 +41,10 @@ spec:
             - name: PORT
               value: "3000"
             - name: POSTGRES_PASSWORD
-              value: "wrongpassword"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
             - name: POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
