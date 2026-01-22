@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY package.json index.js ./
 
-RUN npm install --production
+RUN npm install --omit=dev
 
 CMD ["node", "index.js"]
