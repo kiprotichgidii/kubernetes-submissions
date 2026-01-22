@@ -1,86 +1,26 @@
-## Exercise 4.1: Readiness probe
+## Exercise 4.4: Canary
 
-Build and push the new docker images:
-
+Apply the rollout and analysis-template manifests using kustomize:
 ```bash
-# PING-PONG (v4.1.0)
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:4.1.0 \
-  --push \
-  ping_pong
-
-# LOG-GENERATOR (v4.1.1 - unchanged, just updating tags)
-cd ../log_output/log_generator
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:4.1.1 \
-  --push \
-  .
-
-# LOG-READER (v4.1.2)
-cd ../log_reader
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:4.1.2 \
-  --push \
-  .
+## kustomization.yaml is in root folder
+kubectl apply -k ..
+```
+**Check the rollout status**
+```bash
+kubectl argo rollouts list -n exercises
+kubectl argo rollouts get rollout ping-pong -n exercises
 ```
 
-## Readiness Probes
+**Trigger Update & Analysis**
 
-Readiness probes have been added to ensure applications are only traffic-ready when dependencies are available.
+Update the image to trigger a new rollout:
+```bash
+kubectl argo rollouts set image ping-pong ping-pong=gedionkip/k8s-submissions:4.1.3 -n exercises
+```
+Then watch the rollout and analysis:
+```bash
+kubectl argo rollouts get rollout ping-pong -n exercises --watch
+```
+![](./images/arg-rollout-watch.png)
 
-*   **Ping-pong**: Checks database connectivity via `/healthz`.
-    *   It will be `0/1` if the database is not reachable.
-*   **Log-output**: Checks connectivity to Ping-pong via `/healthz`.
-    *   It will be `1/2` (Reader failing) if Ping-pong is unreachable.
-
-Using the kustomization manifest in the root directory:
-
-1.  Apply deployments without the database:
-    ```bash
-    kubectl apply -k .
-    ## Output
-    namespace/exercises created
-    configmap/log-output-config created
-    service/log-output-svc created
-    service/ping-pong-svc created
-    deployment.apps/log-output created
-    deployment.apps/ping-pong created
-    gateway.gateway.networking.k8s.io/log-gateway created
-    httproute.gateway.networking.k8s.io/log-route created
-    ```
-2.  Observe pods are not ready:
-    ```bash
-    kubectl get pods -n exercises
-    ## Output
-    NAME                          READY   STATUS    RESTARTS   AGE
-    log-output-77f66696bd-945pp   1/2     Running   0          18m
-    ping-pong-78f4f74b88-8gc7x    0/1     Running   0          18m
-    ```
-3.  Include the postgres manifest in and apply with kustomize:
-    ```bash
-    kubectl apply -k .
-    ## Output
-    namespace/exercises unchanged
-    configmap/log-output-config unchanged
-    service/log-output-svc unchanged
-    service/ping-pong-svc unchanged
-    Warning: spec.SessionAffinity is ignored for headless services
-    service/postgres-svc created
-    deployment.apps/log-output unchanged
-    deployment.apps/ping-pong unchanged 
-    statefulset.apps/postgres-db created
-    gateway.gateway.networking.k8s.io/log-gateway configured
-    httproute.gateway.networking.k8s.io/log-route configured
-    ```
-4.  Observe pods become ready:
-    ```bash
-    kubectl get pods -n exercises
-    # Output
-    NAME                          READY   STATUS    RESTARTS   AGE
-    log-output-77f66696bd-945pp   2/2     Running   0          30m
-    ping-pong-78f4f74b88-8gc7x    1/1     Running   0          30m
-    postgres-db-0                 1/1     Running   0          8m11s
-    ```
+You should see the AnalysisRun starting. If CPU usage stays below 0.2, it will proceed. If it spikes, it should fail and rollback.

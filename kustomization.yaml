@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - ping_pong/manifests/namespace.yaml
   - ping_pong/manifests/postgres.yaml
-  - ping_pong/manifests/deployment.yaml
+  - ping_pong/manifests/rollout.yaml
+  - ping_pong/manifests/analysis-template.yaml
   - log_output/manifests/configmap.yaml
-  - log_output/manifests/deployment.yaml
   - log_output/manifests/gateway-route.yaml
 
 images:
