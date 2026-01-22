@@ -18,7 +18,7 @@ spec:
 
       containers:
       - name: ping-pong
-        image: gedionkip/k8s-submissions:3.4
+        image: ping-pong-app
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3001
@@ -35,6 +35,12 @@ spec:
           value: postgres
         - name: POSTGRES_DB
           value: postgres
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
