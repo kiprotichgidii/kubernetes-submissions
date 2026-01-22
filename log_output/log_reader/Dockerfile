@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json index.js ./
 
-RUN npm install --production
+RUN npm install --omit=dev
 
 EXPOSE 3000
 

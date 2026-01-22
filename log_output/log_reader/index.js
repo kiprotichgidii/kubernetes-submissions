@@ -70,6 +70,19 @@ app.get('/', async (req, res) => {
   }
 });
 
+
+app.get('/healthz', async (req, res) => {
+  try {
+    const result = await getPongs();
+    if (result === null) {
+      return res.status(500).send('error');
+    }
+    res.status(200).send('ok');
+  } catch (err) {
+    res.status(500).send('error');
+  }
+});
+
 // --- Start server ---
 app.listen(PORT, () => {
   console.log(
