@@ -1,21 +1,18 @@
-## Exercise 4.3: Prometheus 
+## Exercise 4.5: The Project, step 22
 
-### Prometheus Installation
+Separated the active and completed tasks into two lists, and added scrollbars to the lists to make them more manageable.
 
-Install Prometheus with helm as follows:
+## Build the todo front-end image
+
 ```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack --namespace prometheus --create-namespace
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t gedionkip/k8s-submissions:4.5 \
+  --push \
+  .
 ```
-### Port-Forwad
-Port-forward the service to access it via localhost:
-```bash
-kubectl port-forward -n prometheus svc/prometheus-kube-prometheus-prometheus 9090:9090
-```
-### Query
-Query the number of pods created by StatefulSets in the `prometheus` namespace:
-```bash
-sum(kube_pod_info{namespace="prometheus", created_by_kind="StatefulSet"})
-```
-![](./images/prometheus-query.png)
+When the deployment workflow runs, the images will be build and pushed to GCR with the updated source code, and the new image used.
+
+Access the UI after the deployment is ready:
+
+![](./images/)
