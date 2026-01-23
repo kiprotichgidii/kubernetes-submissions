@@ -202,22 +202,41 @@ const htmlPage = `<!DOCTYPE html>
         }
         }
         
-        .static-list-container {
-            background: #e8f0fe;
-            border-radius: 10px;
-            padding: 20px;
+        .list-section {
             margin-bottom: 20px;
+        }
+
+        .list-header {
+            font-size: 1.2rem;
             color: #333;
-            font-weight: 500;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
-        .static-list-container ol {
-            margin: 0;
-            padding-left: 20px;
+        .scroll-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 5px;
         }
 
-        .static-list-container li {
-            margin-bottom: 8px;
+        .scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #ccc; 
+            border-radius: 4px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #aaa; 
         }
     </style>
 </head>
@@ -232,16 +251,19 @@ const htmlPage = `<!DOCTYPE html>
             <input type="text" id="todoInput" placeholder="Add a new task..." maxlength="140" />
             <button onclick="addTodo()">Add</button>
         </div>
-        <div class="static-list-container">
-            <ol>
-                <li>Learn DevOps</li>
-                <li>Learn Kubernetes</li>
-                <li>Deploy to cluster</li>
-            </ol>
-        </div> 
-        <ul class="todo-list" id="todoList">
-            <li class="empty-state">No tasks yet. Add one above to get started!</li>
-        </ul>
+        <div class="list-section">
+            <h2 class="list-header">Todos</h2>
+            <div class="scroll-container">
+                <ul class="todo-list" id="todoList"></ul>
+            </div>
+        </div>
+
+        <div class="list-section">
+             <h2 class="list-header">Done</h2>
+             <div class="scroll-container">
+                <ul class="todo-list" id="doneList"></ul>
+             </div>
+        </div>
     </div>
     
     <script>
@@ -263,22 +285,37 @@ const htmlPage = `<!DOCTYPE html>
 
         function renderTodos() {
             const todoList = document.getElementById('todoList');
+            const doneList = document.getElementById('doneList');
             
-            if (todos.length === 0) {
-                todoList.innerHTML = '<li class="empty-state">No tasks yet. Add one above to get started!</li>';
-                return;
+            const activeTodos = todos.filter(t => !t.completed);
+            const completedTodos = todos.filter(t => t.completed);
+
+            // Render Active
+            if (activeTodos.length === 0) {
+                todoList.innerHTML = '<li class="empty-state">No active tasks.</li>';
+            } else {
+                todoList.innerHTML = activeTodos.map(todo => renderTodoItem(todo)).join('');
             }
-            
-            todoList.innerHTML = todos.map(todo => \`
+
+            // Render Done
+            if (completedTodos.length === 0) {
+                 doneList.innerHTML = '<li class="empty-state">No completed tasks.</li>';
+            } else {
+                doneList.innerHTML = completedTodos.map(todo => renderTodoItem(todo)).join('');
+            }
+        }
+
+        function renderTodoItem(todo) {
+            return \`
                 <li class="todo-item \${todo.completed ? 'completed' : ''}">
                     <span class="todo-text">\${escapeHtml(todo.text)}</span>
                     <div class="todo-actions">
                         <button class="btn-small btn-complete" onclick="toggleTodo(\${todo.id})">
-                             \${todo.completed ? 'Undo' : 'Complete'}
+                             \${todo.completed ? 'Undo' : 'Done'}
                         </button>
                     </div>
                 </li>
-            \`).join('');
+            \`;
         }
         
         function escapeHtml(text) {
