@@ -18,7 +18,7 @@ images:
     newTag: "17"
   - name: todo-app
     newName: gedionkip/k8s-submissions
-    newTag: "2.6"
+    newTag: "4.5"
   - name: todo-backend
     newName: gedionkip/k8s-submissions
     newTag: "4.2"
