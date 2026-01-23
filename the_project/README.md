@@ -15,4 +15,4 @@ When the deployment workflow runs, the images will be build and pushed to GCR wi
 
 Access the UI after the deployment is ready:
 
-![](./images/)
+![](./images/updated-todo-ui.png)
