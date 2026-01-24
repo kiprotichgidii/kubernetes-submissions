@@ -49,3 +49,4 @@ jobs:
         with:
           add: 'kustomization.yaml'
           message: "Update log_output images to ${{ github.sha }}"
+          push: origin HEAD:main
