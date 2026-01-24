@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster
+  namespace: project
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers: 
+      - name: broadcaster
+        image: broadcaster-image
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: NATS_URL
+          value: "nats://my-nats.default.svc.cluster.local:4222"
+        - name: BROADCASTER_URL
+          valueFrom:
+            secretKeyRef:
+              name: todo-secret
+              key: BROADCASTER_URL
+              optional: true
