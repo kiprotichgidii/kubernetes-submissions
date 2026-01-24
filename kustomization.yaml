@@ -12,10 +12,10 @@ resources:
 images:
 - name: log-generator
   newName: gedionkip/k8s-submissions
-  newTag: log-generator-d3771de18b343919e393f4445c7502160009d8d8
+  newTag: log-generator-067dcef8fc825775e68ee4099c88af12a7fe1990
 - name: log-reader
   newName: gedionkip/k8s-submissions
-  newTag: log-reader-d3771de18b343919e393f4445c7502160009d8d8
+  newTag: log-reader-067dcef8fc825775e68ee4099c88af12a7fe1990
 - name: ping-pong-app
   newName: gedionkip/k8s-submissions
   newTag: 4.1.0
