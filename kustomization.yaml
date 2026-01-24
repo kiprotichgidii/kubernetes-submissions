@@ -5,7 +5,7 @@ resources:
 - ping_pong/manifests/namespace.yaml
 - log_output/manifests/deployment.yaml
 - log_output/manifests/configmap.yaml
-- log_output/manifests/ingress.yaml
+- log_output/manifests/gateway-route.yaml
 - ping_pong/manifests/deployment.yaml
 - ping_pong/manifests/postgres.yaml
 
