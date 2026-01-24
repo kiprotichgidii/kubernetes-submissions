@@ -59,3 +59,4 @@ jobs:
           add: 'the_project/kustomization.yaml'
           message: "Update project images to ${{ github.sha }}"
           push: origin HEAD:main
+        #  pull: '--rebase --autostash origin main'
