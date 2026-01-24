@@ -65,6 +65,8 @@ spec:
                 configMapKeyRef:
                   name: postgres-config
                   key: POSTGRES_PORT
+            - name: NATS_URL
+              value: "nats://my-nats.default.svc.cluster.local:4222"
           readinessProbe:
             httpGet:
               path: /healthz
