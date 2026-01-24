@@ -1,47 +1,20 @@
-### Exercise 4.6: Broadcaster Service
-Authentication is disabled for NATS.
+## Exercise 4.8: The Project GitOps
 
-**Install NATS**:
- ```bash
- helm repo add bitnami https://charts.bitnami.com/bitnami
- helm repo update
- helm install my-nats bitnami/nats -f nats-values.yaml
- ```
+The main project applications (Frontend, Backend, Broadcaster) are managed using **GitOps** principles with ArgoCD.
 
-**Deploy Broadcaster**:
- The broadcaster service listens to NATS messages and forwards them to a Discord Webhook URL (configured in `manifests/secret.yaml`).
-  
- Apply the manifests:
- ```bash
- kubectl apply -k .
- ```
+**GitOps Controller**: ArgoCD (`the_project/manifests/argocd.yaml`).
 
-**Verify**:
- Scale to 6 replicas is defined in `manifests/broadcaster.yaml`.
+**CI Pipeline**: [`.github/workflows/project.yaml`](../.github/workflows/project.yaml)
+  - Builds images for `todo-app`, `todo-backend`, and `broadcaster`.
+  - Updates `the_project/kustomization.yaml` with the new image tags.
+  - Pushes changes to `main`.
 
- ```bash
- ❯ k get deployments project
-
-NAME          READY   UP-TO-DATE   AVAILABLE   AGE
-broadcaster   6/6     6            6           14h
-todo-app      1/1     1            1           2d19h
- ```
-
- Check logs to ensure messages are processed only once per event across the 6 replicas.
- ```bash
- ❯ kubectl logs -l app=broadcaster -n project
- ```
-```json
-Connected to NATS at nats://my-nats.default.svc.cluster.local:4222
-Subscribed to "todo_updates" with queue group "broadcaster-workers"
-Received message: {
-  user: 'bot',
-  message: 'New todo created: Submit Kubernetes Submission',
-  id: 72,
-  text: 'Submit Kubernetes Submission',
-  completed: false
-}
-Message sent to broadcaster URL
+Deploy ArgoCD Application:
+```bash
+kubectl apply -f manifests/argocd.yaml
 ```
-In the discord server:
-![alt text](./images/discord-messaging-integration.png)
+This creates the `the-project` application in ArgoCD, syncing the `the_project` directory.
+
+Pushed workflow file to GitHub to trigger the CI pipeline.
+
+![](./images/argocd-todo-app.png)
