@@ -1,0 +1,19 @@
+global:
+  security:
+    allowInsecureImages: true
+auth:
+  enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: "prometheus"
+    labels:
+      release: "prometheus"
+  image:
+    registry: "docker.io"
+    repository: "natsio/prometheus-nats-exporter"
+    tag: "latest"
+image:
+  registry: "docker.io"
+  repository: "bitnamilegacy/nats"
