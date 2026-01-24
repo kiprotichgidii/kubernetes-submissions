@@ -37,7 +37,7 @@ spec:
     spec:
       accessModes: 
         - ReadWriteOnce
-      storageClassName: rook-ceph-block
+      storageClassName: local-path
       resources:
         requests:
           storage: 1Gi
