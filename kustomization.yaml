@@ -3,20 +3,20 @@ kind: Kustomization
 
 resources:
   - ping_pong/manifests/namespace.yaml
-  - ping_pong/manifests/postgres.yaml
-  - ping_pong/manifests/rollout.yaml
-  - ping_pong/manifests/analysis-template.yaml
+  - log_output/manifests/deployment.yaml
   - log_output/manifests/configmap.yaml
-  - log_output/manifests/gateway-route.yaml
+  - log_output/manifests/ingress.yaml
+  - ping_pong/manifests/deployment.yaml
+  - ping_pong/manifests/postgres.yaml
 
 images:
-  - name: ping-pong-app
-    newName: gedionkip/k8s-submissions
-    newTag: "4.1.0"
   - name: log-generator
     newName: gedionkip/k8s-submissions
     newTag: "4.1.1"
   - name: log-reader
     newName: gedionkip/k8s-submissions
     newTag: "4.1.2"
+  - name: ping-pong-app
+    newName: gedionkip/k8s-submissions
+    newTag: "4.1.0"
 
