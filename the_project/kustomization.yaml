@@ -2,27 +2,27 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - manifests/configmap.yaml
-  - manifests/cronjob.yaml
-  - manifests/backup-cronjob.yaml
-  - manifests/pvc.yaml
-  - manifests/deployment.yaml
-  - manifests/gateway-route.yaml
-  - manifests/secret.yaml
-  - manifests/postgres.yaml
-  - manifests/broadcaster.yaml
+- manifests/configmap.yaml
+- manifests/cronjob.yaml
+- manifests/backup-cronjob.yaml
+- manifests/pvc.yaml
+- manifests/deployment.yaml
+- manifests/gateway-route.yaml
+- manifests/secret.yaml
+- manifests/postgres.yaml
+- manifests/broadcaster.yaml
 
 images:
 - name: broadcaster-image
   newName: gedionkip/k8s-submissions
-  newTag: broadcaster-66bd8285066271c93fe9d0b1ab1ba0b344743e95
+  newTag: broadcaster-2e8ff2c3484bdb1b46c1e4022fe907e8dcfff70e
 - name: curlimages/curl
   newTag: latest
 - name: postgres
   newTag: "17"
 - name: todo-app
   newName: gedionkip/k8s-submissions
-  newTag: todo-app-66bd8285066271c93fe9d0b1ab1ba0b344743e95
+  newTag: todo-app-2e8ff2c3484bdb1b46c1e4022fe907e8dcfff70e
 - name: todo-backend
   newName: gedionkip/k8s-submissions
-  newTag: todo-backend-66bd8285066271c93fe9d0b1ab1ba0b344743e95
+  newTag: todo-backend-2e8ff2c3484bdb1b46c1e4022fe907e8dcfff70e
