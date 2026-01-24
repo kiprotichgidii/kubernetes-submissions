@@ -31,10 +31,12 @@ todo-app      1/1     1            1           2d19h
 ```json
 Received message: {
   user: 'bot',
-  message: 'New todo created: Play Video Games',
-  id: 69,
-  text: 'Play Video Games',
-  completed: false
+  message: 'Todo 53 updated to completed',
+  id: 53,
+  text: 'Read https://en.wikipedia.org/wiki/Kevin_Bedford',
+  completed: true
+}
+Message sent to broadcaster URL
 ```
 In the discord server:
 ![alt text](./images/discord-messaging-integration.png)
