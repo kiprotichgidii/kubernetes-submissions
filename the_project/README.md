@@ -1,18 +1,40 @@
-## Exercise 4.5: The Project, step 22
+### Exercise 4.6: Broadcaster Service
+Authentication is disabled for NATS.
 
-Separated the active and completed tasks into two lists, and added scrollbars to the lists to make them more manageable.
+**Install NATS**:
+ ```bash
+ helm repo add bitnami https://charts.bitnami.com/bitnami
+ helm repo update
+ helm install my-nats bitnami/nats -f nats-values.yaml
+ ```
 
-## Build the todo front-end image
+**Deploy Broadcaster**:
+ The broadcaster service listens to NATS messages and forwards them to a Discord Webhook URL (configured in `manifests/secret.yaml`).
+  
+ Apply the manifests:
+ ```bash
+ kubectl apply -k .
+ ```
 
-```bash
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:4.5 \
-  --push \
-  .
+**Verify**:
+ Scale to 6 replicas is defined in `manifests/broadcaster.yaml`.
+
+ ```bash
+ ❯ k get deployments project
+
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+broadcaster   6/6     6            6           14h
+todo-app      1/1     1            1           2d19h
+ ```
+
+ Check logs to ensure messages are processed only once per event across the 6 replicas.
+```json
+Received message: {
+  user: 'bot',
+  message: 'New todo created: Play Video Games',
+  id: 69,
+  text: 'Play Video Games',
+  completed: false
 ```
-When the deployment workflow runs, the images will be build and pushed to GCR with the updated source code, and the new image used.
-
-Access the UI after the deployment is ready:
-
-![](./images/updated-todo-ui.png)
+In the discord server:
+![alt text](./images/discord-messaging-integration.png)
