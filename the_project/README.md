@@ -28,13 +28,18 @@ todo-app      1/1     1            1           2d19h
  ```
 
  Check logs to ensure messages are processed only once per event across the 6 replicas.
+ ```bash
+ ❯ kubectl logs -l app=broadcaster -n project
+ ```
 ```json
+Connected to NATS at nats://my-nats.default.svc.cluster.local:4222
+Subscribed to "todo_updates" with queue group "broadcaster-workers"
 Received message: {
   user: 'bot',
-  message: 'Todo 53 updated to completed',
-  id: 53,
-  text: 'Read https://en.wikipedia.org/wiki/Kevin_Bedford',
-  completed: true
+  message: 'New todo created: Submit Kubernetes Submission',
+  id: 72,
+  text: 'Submit Kubernetes Submission',
+  completed: false
 }
 Message sent to broadcaster URL
 ```
