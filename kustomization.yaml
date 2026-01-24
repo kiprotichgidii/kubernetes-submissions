@@ -2,21 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ping_pong/manifests/namespace.yaml
-  - log_output/manifests/deployment.yaml
-  - log_output/manifests/configmap.yaml
-  - log_output/manifests/ingress.yaml
-  - ping_pong/manifests/deployment.yaml
-  - ping_pong/manifests/postgres.yaml
+- ping_pong/manifests/namespace.yaml
+- log_output/manifests/deployment.yaml
+- log_output/manifests/configmap.yaml
+- log_output/manifests/ingress.yaml
+- ping_pong/manifests/deployment.yaml
+- ping_pong/manifests/postgres.yaml
 
 images:
-  - name: log-generator
-    newName: gedionkip/k8s-submissions
-    newTag: "4.1.1"
-  - name: log-reader
-    newName: gedionkip/k8s-submissions
-    newTag: "4.1.2"
-  - name: ping-pong-app
-    newName: gedionkip/k8s-submissions
-    newTag: "4.1.0"
-
+- name: log-generator
+  newName: gedionkip/k8s-submissions
+  newTag: log-generator-c8cba4640b4df240eec9c3748f72d96e2fc5cb56
+- name: log-reader
+  newName: gedionkip/k8s-submissions
+  newTag: log-reader-c8cba4640b4df240eec9c3748f72d96e2fc5cb56
+- name: ping-pong-app
+  newName: gedionkip/k8s-submissions
+  newTag: 4.1.0
