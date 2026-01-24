@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const { connect, StringCodec } = require('nats');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const NATS_URL = process.env.NATS_URL || 'nats://my-nats:4222';
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +17,19 @@ const pool = new Pool({
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_PORT || 5432,
 });
+
+const sc = StringCodec();
+let nc;
+
+const connectToNats = async () => {
+    try {
+        nc = await connect({ servers: NATS_URL });
+        console.log(`Connected to NATS at ${NATS_URL}`);
+    } catch (err) {
+        console.error('Error connecting to NATS', err);
+        // Retry logic could be added, or allow pod restart
+    }
+};
 
 const connectToDb = async () => {
     try {
@@ -33,6 +48,7 @@ const connectToDb = async () => {
 };
 
 connectToDb();
+connectToNats();
 
 app.get('/', (req, res) => {
     res.send('Todo Backend Online');
@@ -75,6 +91,15 @@ app.post('/todos', async (req, res) => {
         );
         const newTodo = result.rows[0];
         console.log('Added todo:', newTodo);
+
+        if (nc) {
+            nc.publish('todo_updates', sc.encode(JSON.stringify({
+                user: "bot",
+                message: `New todo created: ${newTodo.text}`,
+                ...newTodo
+            })));
+        }
+
         res.status(201).json(newTodo);
     } catch (err) {
         console.error(err);
@@ -91,7 +116,18 @@ app.put('/todos/:id', async (req, res) => {
         );
 
         if (result.rowCount > 0) {
-            res.json(result.rows[0]);
+            const updatedTodo = result.rows[0];
+
+            if (nc) {
+                const status = updatedTodo.completed ? 'completed' : 'active';
+                nc.publish('todo_updates', sc.encode(JSON.stringify({
+                    user: "bot",
+                    message: `Todo ${id} updated to ${status}`,
+                    ...updatedTodo
+                })));
+            }
+
+            res.json(updatedTodo);
         } else {
             res.status(404).json({ error: 'Todo not found' });
         }
