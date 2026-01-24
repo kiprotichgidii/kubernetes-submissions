@@ -10,6 +10,7 @@ resources:
   - manifests/gateway-route.yaml
   - manifests/secret.yaml
   - manifests/postgres.yaml
+  - manifests/broadcaster.yaml
 
 images:
   - name: curlimages/curl
@@ -21,4 +22,7 @@ images:
     newTag: "4.5"
   - name: todo-backend
     newName: gedionkip/k8s-submissions
-    newTag: "4.2"
+    newTag: "4.6.1"
+  - name: broadcaster-image
+    newName: gedionkip/k8s-submissions
+    newTag: "broadcaster-v3"
