@@ -1,39 +1,23 @@
-# Log Output & Pingpong
-Exercise 3.4: Rewritten Routing
+## Exercise 4.7:  Baby Steps to GitOps
 
-### Build and Push Docker Image
-Build and Push the pingpong app image:
+This application is managed using **GitOps** principles with **ArgoCD** and **GitHub Actions**.
 
-```bash
-cd ping_pong
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t gedionkip/k8s-submissions:3.4 \
-  --push \
-  .
-```
+- **Source of Truth**: The `kustomization.yaml` at the repository root defines the desired state;
 
-### Kubernetes Deployment (GKE)
+- **CI Pipeline**: A GitHub Action (`.github/workflows/log-output.yaml`) automatically:
+    1.  Builds new Docker images for `log-generator` and `log-reader` on changes to `log_output/**`.
+    2.  Pushes them to Docker Hub.
+    3.  Updates the root `kustomization.yaml` with the new image tags.
+    4.  Commits the change back to the repository.
 
-The application runs in the `exercises` namespace.
+- **CD Controller**: **ArgoCD** watches the repository root and syncs the cluster state to match `kustomization.yaml`.
+
+Added secrets `DOCKER_USERNAME` and `DOCKER_PASSWORD` to GitHub and installed ArgoCD in the cluster with:
 
 ```bash
-# Create the exercises namespace
-kubectl apply -f ping_pong/manifests/namespace.yaml
-
-# Deploy log-output & log-reader with Gateway
-kubectl apply -f log_output/manifests/
-
-# Deploy the Pingpong app
-kubectl apply -f ping_pong/manifests/
+kubectl apply -f log_output/manifests/argocd.yaml
 ```
+Pushed changes to `main` and verified that the GitHub Action completed successfully.
 
-### Get the Gateway IP
-
-```bash
-kubectl get gateway -n exercises
-```
-
-### Accessing the Endpoint
-
-Access the application via the Gateway IP (e.g., `http://<GATEWAY-IP>/` or `http://<GATEWAY-IP>/pingpong`).
+ArgoCD UI after pushing chnages to GitHub:
+![](./images/log-output-argocd-app.png)
