@@ -1,3 +1,10 @@
-- op: add
-  path: /spec/rules/0/host
-  value: staging.todo.com
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: the-project
+  namespace: project
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: staging.todo.com
+    http:
