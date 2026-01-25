@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: the-project
+  name: project-staging
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/kiprotichgidii/kubernetes-submissions
     targetRevision: main
-    path: the_project
+    path: the_project/overlays/staging
   destination:
     server: https://kubernetes.default.svc
-    namespace: project
+    namespace: project-staging
   syncPolicy:
     automated:
       selfHeal: true
