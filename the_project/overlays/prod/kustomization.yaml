@@ -11,11 +11,6 @@ patches:
   - path: pvc.yaml
   - path: postgres.yaml
   - path: ingress.yaml
-    target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: the-project
 
 images:
   - name: curlimages/curl
