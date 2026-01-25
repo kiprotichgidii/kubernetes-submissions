@@ -1,4 +1,4 @@
-## Exercise 4.10: Separation of Concerns
+## Exercise 4.10: The Project, Grand Finale
 
 The project architecture has been evolved to split **Source Code** and **Configuration** into separate repositories.
 
