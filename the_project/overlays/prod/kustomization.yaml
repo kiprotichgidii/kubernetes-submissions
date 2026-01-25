@@ -4,20 +4,20 @@ kind: Kustomization
 namespace: project-prod
 
 resources:
-  - ../../base
-  - backup-cronjob.yaml
+- ../../base
+- backup-cronjob.yaml
 
 images:
-  - name: curlimages/curl
-    newTag: latest
-  - name: postgres
-    newTag: "17"
-  - name: todo-app
-    newName: gedionkip/k8s-submissions
-    newTag: "4.5"
-  - name: todo-backend
-    newName: gedionkip/k8s-submissions
-    newTag: "4.6.1"
-  - name: broadcaster-image
-    newName: gedionkip/k8s-submissions
-    newTag: "broadcaster-v3"
+- name: broadcaster-image
+  newName: gedionkip/k8s-submissions
+  newTag: broadcaster-4c45912e9a754225fe8d33650bd29b66071ac984
+- name: curlimages/curl
+  newTag: latest
+- name: postgres
+  newTag: "17"
+- name: todo-app
+  newName: gedionkip/k8s-submissions
+  newTag: todo-app-4c45912e9a754225fe8d33650bd29b66071ac984
+- name: todo-backend
+  newName: gedionkip/k8s-submissions
+  newTag: todo-backend-4c45912e9a754225fe8d33650bd29b66071ac984
