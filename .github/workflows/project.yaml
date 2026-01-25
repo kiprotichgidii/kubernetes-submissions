@@ -6,7 +6,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*'
+      - '*'
     paths:
       - 'the_project/**'
       - '.github/workflows/project.yaml'
@@ -57,7 +57,7 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "env=staging" >> $GITHUB_OUTPUT
             echo "kustomize_dir=the_project/overlays/staging" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "env=prod" >> $GITHUB_OUTPUT
             echo "kustomize_dir=the_project/overlays/prod" >> $GITHUB_OUTPUT
           else
