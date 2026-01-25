@@ -4,6 +4,22 @@ metadata:
   name: the-project
   namespace: project
 spec:
+  ingressClassName: nginx
   rules:
   - host: staging.todo.com
-  
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-app-svc
+            port:
+              number: 30080
+      - path: /todos
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 80
