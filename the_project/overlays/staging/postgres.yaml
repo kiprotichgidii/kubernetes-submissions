@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+  namespace: project
+spec:
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-pvc
+    spec:
+      storageClassName: local-path
