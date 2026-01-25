@@ -48,8 +48,12 @@ jobs:
           push: true
           tags: gedionkip/k8s-submissions:broadcaster-${{ github.sha }}
 
-      - name: Setup Kustomize
-        uses: imranismail/setup-kustomize@v2.1.0
+      - name: Checkout Config Repo
+        uses: actions/checkout@v4
+        with:
+          repository: kiprotichgidii/kubernetes-project-config
+          path: config-repo
+          token: ${{ secrets.GIT_TOKEN }}
 
       - name: Determine Environment
         id: env-selector
@@ -67,14 +71,18 @@ jobs:
 
       - name: Update Kustomization
         run: |
-          cd ${{ steps.env-selector.outputs.kustomize_dir }}
+          # Navigate to the config repo checkout
+          cd config-repo/${{ steps.env-selector.outputs.kustomize_dir }}
+          
+          # Update images
           kustomize edit set image todo-app=gedionkip/k8s-submissions:todo-app-${{ github.sha }}
           kustomize edit set image todo-backend=gedionkip/k8s-submissions:todo-backend-${{ github.sha }}
           kustomize edit set image broadcaster-image=gedionkip/k8s-submissions:broadcaster-${{ github.sha }}
 
-      - name: Commit and Push
+      - name: Commit and Push to Config Repo
         uses: EndBug/add-and-commit@v9
         with:
+          cwd: 'config-repo'
           add: '${{ steps.env-selector.outputs.kustomize_dir }}/kustomization.yaml'
           message: "Update ${{ steps.env-selector.outputs.env }} images to ${{ github.sha }}"
           push: origin HEAD:main
