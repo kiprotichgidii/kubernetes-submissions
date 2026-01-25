@@ -17,14 +17,14 @@ patches:
 images:
 - name: broadcaster-image
   newName: gedionkip/k8s-submissions
-  newTag: broadcaster-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
+  newTag: broadcaster-2f215959948faf79e7bdd452e392d8910728dfba
 - name: curlimages/curl
   newTag: latest
 - name: postgres
   newTag: "17"
 - name: todo-app
   newName: gedionkip/k8s-submissions
-  newTag: todo-app-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
+  newTag: todo-app-2f215959948faf79e7bdd452e392d8910728dfba
 - name: todo-backend
   newName: gedionkip/k8s-submissions
-  newTag: todo-backend-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
+  newTag: todo-backend-2f215959948faf79e7bdd452e392d8910728dfba
