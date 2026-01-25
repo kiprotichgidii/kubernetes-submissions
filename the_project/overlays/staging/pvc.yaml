@@ -1,3 +1,7 @@
-- op: replace
-  path: /spec/storageClassName
-  value: local-path
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: todo-app-pvc
+  namespace: project
+spec:
+  storageClassName: local-path

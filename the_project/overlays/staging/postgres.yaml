@@ -1,3 +1,16 @@
-- op: replace
-  path: /spec/volumeClaimTemplates/0/spec/storageClassName
-  value: local-path
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+  namespace: project
+spec:
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: local-path
