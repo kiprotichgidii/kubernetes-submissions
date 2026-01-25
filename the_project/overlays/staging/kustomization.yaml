@@ -4,27 +4,27 @@ kind: Kustomization
 namespace: project-staging
 
 resources:
-  - ../../base
+- ../../base
 
 patches:
-  - path: broadcaster-json.yaml
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: broadcaster
+- path: broadcaster-json.yaml
+  target:
+    group: apps
+    kind: Deployment
+    name: broadcaster
+    version: v1
 
 images:
-  - name: curlimages/curl
-    newTag: latest
-  - name: postgres
-    newTag: "17"
-  - name: todo-app
-    newName: gedionkip/k8s-submissions
-    newTag: "4.5"
-  - name: todo-backend
-    newName: gedionkip/k8s-submissions
-    newTag: "4.6.1"
-  - name: broadcaster-image
-    newName: gedionkip/k8s-submissions
-    newTag: "broadcaster-v3"
+- name: broadcaster-image
+  newName: gedionkip/k8s-submissions
+  newTag: broadcaster-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
+- name: curlimages/curl
+  newTag: latest
+- name: postgres
+  newTag: "17"
+- name: todo-app
+  newName: gedionkip/k8s-submissions
+  newTag: todo-app-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
+- name: todo-backend
+  newName: gedionkip/k8s-submissions
+  newTag: todo-backend-a6129f1f75d4d15905721354c5ea6c4b1cc9d994
