@@ -5,7 +5,7 @@ namespace: project-prod
 
 resources:
   - ../../base
-  - ../../base/manifests/backup-cronjob.yaml
+  - backup-cronjob.yaml
 
 patches:
   - path: pvc.yaml
