@@ -1,0 +1,94 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: project
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: postgres:17
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                set -e
+                GCLOUD_VERSION="466.0.0"
+
+                echo "Updating apt cache..."
+                apt-get update -y
+
+                echo "Installing dependencies..."
+                apt-get install -y \
+                    curl \
+                    python3 \
+                    bash \
+                    ca-certificates \
+                    gnupg \
+                    lsb-release
+
+                echo "Downloading Google Cloud SDK..."
+                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz
+
+                echo "Extracting Google Cloud SDK..."
+                tar -xf google-cloud-cli-${GCLOUD_VERSION}-linux-x86_64.tar.gz -C /usr/local/
+
+                echo "Installing Google Cloud SDK..."
+                /usr/local/google-cloud-sdk/install.sh \
+                  --quiet \
+                  --usage-reporting=false \
+                  --path-update=false \
+                  --bash-completion=false \
+                  --rc-path=/dev/null
+
+                echo "Linking gcloud binary..."
+                ln -s /usr/local/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+                ln -s /usr/local/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil
+
+                echo "Authenticating..."
+                gcloud auth activate-service-account --key-file=/var/secrets/google/key.json
+
+                echo "Creating backup..."
+                PGPASSWORD=$PGPASSWORD pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER $POSTGRES_DB > /tmp/backup.sql
+
+                echo "Uploading to GCS..."
+                gsutil cp /tmp/backup.sql gs://gidii-dwk-k8s-backups/backup-$(date +%Y-%m-%d).sql
+                echo "Backup complete."
+            env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+              readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+          - name: google-cloud-key
+            secret:
+              secretName: gcs-key
