@@ -6,7 +6,7 @@ resources:
   - manifests/cronjob.yaml
   - manifests/pvc.yaml
   - manifests/deployment.yaml
-  - manifests/ingress.yaml
+  - manifests/gateway-route.yaml
   - manifests/secret.yaml
   - manifests/postgres.yaml
   - manifests/broadcaster.yaml

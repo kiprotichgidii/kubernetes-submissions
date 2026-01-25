@@ -7,9 +7,6 @@ resources:
   - ../../base
 
 patches:
-  - path: pvc.yaml
-  - path: postgres.yaml
-  - path: ingress.yaml
   - path: broadcaster-json.yaml
     target:
       group: apps

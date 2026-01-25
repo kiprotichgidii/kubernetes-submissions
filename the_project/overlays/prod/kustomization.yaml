@@ -7,11 +7,6 @@ resources:
   - ../../base
   - backup-cronjob.yaml
 
-patches:
-  - path: pvc.yaml
-  - path: postgres.yaml
-  - path: ingress.yaml
-
 images:
   - name: curlimages/curl
     newTag: latest
