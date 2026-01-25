@@ -8,21 +8,8 @@ resources:
 
 patches:
   - path: pvc.yaml
-    target:
-      kind: PersistentVolumeClaim
-      name: todo-app-pvc
   - path: postgres.yaml
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
-      name: postgres-db
   - path: ingress.yaml
-    target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: the-project
   - path: broadcaster-json.yaml
     target:
       group: apps
