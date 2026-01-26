@@ -16,5 +16,5 @@ spec:
       serviceAccountName: dummy-site-controller
       containers:
         - name: controller
-          image: gedionkip/k8s-submissions:dummy-controller
+          image: dummy-controller
           imagePullPolicy: IfNotPresent
