@@ -4,4 +4,4 @@ metadata:
   name: example-site
   namespace: default
 spec:
-  website_url: "https://cloudspinx.com"
+  website_url: "https://en.wikipedia.org/wiki/Kubernetes"
