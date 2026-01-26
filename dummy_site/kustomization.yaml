@@ -9,4 +9,4 @@ resources:
 images:
   - name: dummy-controller
     newName: gedionkip/k8s-submissions
-    newTag: dummy-controller-v1
+    newTag: dummy-controller
