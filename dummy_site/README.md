@@ -41,6 +41,6 @@ The controller will create a Deployment named `example-site`.
 ```bash
 kubectl port-forward deployment/example-site 8080:80
 ```
-On `http://localhost:8080` you should see the content of the website specified in the DummySite resource.
+On `http://localhost:8080`:
 
 ![](./images/dummysite-example.png)
