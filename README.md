@@ -53,3 +53,4 @@ Getting Started
 - [4.10](https://github.com/kiprotichgidii/kubernetes-submissions/tree/4.10/the_project)
 ### Chapter 6
 - [5.1](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.1/dummy_site)
+- [5.2](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.2/exercise-5.2)
