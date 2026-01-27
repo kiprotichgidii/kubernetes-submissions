@@ -11,9 +11,9 @@ spec:
     port: 80
   rules:
   - backendRefs:
-    - name: greeter-svc-v1
+    - name: greeter-svc-1
       port: 80
       weight: 75
-    - name: greeter-svc-v2
+    - name: greeter-svc-2
       port: 80
       weight: 25
