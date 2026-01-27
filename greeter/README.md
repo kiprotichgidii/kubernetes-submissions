@@ -20,7 +20,7 @@ docker buildx build \
   .
 ```
 
-### Deploy
+### Deployment
 If the Log-Output and Pingpong apps were not deployed yet, then deploy them first.
 
 ```bash
