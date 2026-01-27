@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeter-v2
+  namespace: exercises
+  labels:
+    app: greeter
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeter
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: greeter
+        version: v2
+    spec:
+      containers:
+      - name: greeter
+        image: gedionkip/k8s-submissions:greeter
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MESSAGE
+          value: "Hi there from Greeter v2"
