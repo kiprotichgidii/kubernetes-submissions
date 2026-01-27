@@ -9,7 +9,7 @@ spec:
   - host: wikipedia.local
     http:
       paths:
-      - path: /wikipedia
+      - path: /
         pathType: Prefix
         backend:
           service:

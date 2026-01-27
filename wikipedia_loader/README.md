@@ -2,29 +2,28 @@
 
 An application that serves Wikipedia pages using a multi-container Pod pattern.
 
-## Architecture
-- **Main Container**: Nginx (serves `/usr/share/nginx/html`).
-- **Init Container**: Fetches "Kubernetes" wiki page on startup.
-- **Sidecar Container**: Wakes up every 5-15 minutes, fetches a random Wikipedia page, and overwrites `index.html`.
-- **Volume**: `emptyDir` shared between all containers.
-
-## Deploy
+## Deployment
 
 ```bash
-kubectl apply -f wikipedia_loader/manifests/deployment.yaml
-kubectl apply -f wikipedia_loader/manifests/service.yaml
-kubectl apply -f wikipedia_loader/manifests/ingress.yaml
+kubectl apply -k wikipedia_loader/
+```
+Check the pods:
+
+```bash
+❯ k get pods -n exercises
+NAME                                      READY   STATUS    RESTARTS   AGE
+wikipedia-gateway-istio-bcb44f74d-lkhbv   1/1     Running   0          3m28s
+wikipedia-loader-5c7549697f-mknwt         2/2     Running   0          3m28s
 ```
 
-## Verify
+**Initial Page Load**:
 
-1.  **Initial Load**: Access the service immediately. It should show the **Kubernetes** Wikipedia page.
-    ```bash
-    kubectl port-forward svc/wikipedia-loader-svc 8080:80 -n exercises
-    # Visit http://localhost:8080
-    ```
+An immediate access, before 5 minutes elapse, should show the Kubernetes Wikipedia page:
 
-2.  **Update**: Wait (5-15 mins) or check the logs of the sidecar to see it updating.
-    ```bash
-    kubectl logs -l app=wikipedia-loader -c content-updater -n exercises -f
-    ```
+![](./images/wikipedia-loader-initial.png)
+
+**Page Load after 5-15 minutes**: 
+
+Waiting (5-15 mins) the reloading the page should show a random Wikipedia page.
+
+![](./images/wikipedia-loader-updated.png)
