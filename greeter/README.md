@@ -1,6 +1,6 @@
 ## Exercise 5.3: Log App, Service Mesh
 
-Build and push the greeter and the updated log_reader images to Docker Hub:
+Build and push the `greeter` and the updated `log_reader` images to Docker Hub:
 
 ```bash
 # Build Greeter
@@ -27,10 +27,9 @@ If the Log-Output and Pingpong apps were not deployed yet, then deploy them firs
 kubectl apply -k .
 ```
 
-Apply the manifests to the `exercises` namespace (ensure it has Istio Ambient enabled).
+Apply the manifests to the `exercises` namespace:
 
 ```bash
-# Deploy Greeter components
 kubectl apply -k greeter
 ```
 If it was already deployed, then you need to restart the deployment.
