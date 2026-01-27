@@ -1,4 +1,4 @@
-# Exercise 5.4: Wikipedia Loader
+## Exercise 5.4: Wikipedia Loader
 
 An application that serves Wikipedia pages using a multi-container Pod pattern.
 
