@@ -3,6 +3,7 @@
 An application that serves Wikipedia pages using a multi-container Pod pattern.
 
 ## Deployment
+Deploy the application using kustomize:
 
 ```bash
 kubectl apply -k wikipedia_loader/
