@@ -37,6 +37,23 @@ function getPongs() {
   });
 }
 
+const GREETER_URL = process.env.GREETER_URL || 'http://greeter-svc:80';
+
+function getGreeting() {
+  return new Promise((resolve) => {
+    http.get(GREETER_URL, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        resolve(data.trim());
+      });
+    }).on('error', (err) => {
+      console.error('Error fetching greeting:', err.message);
+      resolve('Greeting unavailable');
+    });
+  });
+}
+
 // --- HTTP endpoint to get current status + ping/pong count ---
 const CONFIG_FILE_PATH = process.env.CONFIG_FILE_PATH || '/etc/config/information.txt';
 const MESSAGE = process.env.MESSAGE || 'default message';
@@ -45,6 +62,7 @@ app.get('/', async (req, res) => {
   try {
     const latestStatus = readLatestStatusLine();
     const count = await getPongs();
+    const greeting = await getGreeting();
 
     // Read config file content
     let fileContent = '';
@@ -62,7 +80,7 @@ app.get('/', async (req, res) => {
         .send('No data written yet.\n');
     }
 
-    const response = `file content: ${fileContent}\nenv variable: MESSAGE=${MESSAGE}\n${latestStatus}\n\nPing / Pongs: ${count}\n`;
+    const response = `file content: ${fileContent}\nenv variable: MESSAGE=${MESSAGE}\n${latestStatus}\n\nPing / Pongs: ${count}\nGreeter: ${greeting}\n`;
     res.type('text/plain').send(response);
   } catch (err) {
     console.error(err);
