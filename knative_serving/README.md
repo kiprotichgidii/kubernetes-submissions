@@ -2,7 +2,7 @@
 
 Serverless `ping-pong` application.
 
-### Create Database and Deploy Database 
+### Create Namespace and Deploy Database 
 Ensure the Postgres database is running in the `exercises` namespace:
 ```bash
 kubectl apply -f ping_pong/manifests/namespace.yaml
