@@ -57,4 +57,4 @@ Getting Started
 - [5.3](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.3/greeter)
 - [5.4](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.4/wikipedia_loader)
 - [5.6](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.6/knative_serving)
-
+- [5.7](https://github.com/kiprotichgidii/kubernetes-submissions/tree/5.7/knative_serving)
